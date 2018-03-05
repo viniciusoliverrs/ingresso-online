@@ -1,0 +1,9 @@
+body {
+	margin: 0;
+}
+
+.icones-image {
+	width: 20px;
+	height: 20px;
+	opacity: 0.6;
+}
