@@ -13,7 +13,9 @@
     <link href="/static/css/shop-homepage.css" rel="stylesheet">
     <!-- Bootstrap core JavaScript -->
     <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/controllers.js"></script>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/angular.min.js"></script>
 	</head>
 	<body>
 		<header>

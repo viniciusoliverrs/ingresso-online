@@ -131,27 +131,6 @@ def usuario_edit_get():
 	usuaario_id = get_session()
 	dado = Conta().find(get_session())
 	return template('view/usuario/edit',dado=dado)
-@route('/usuario/upload', method='POST')
-def usuario_upload_post():
-	has_session()
-	usuario_id = get_session()
-	upload = request.files.get('upload')
-	name, ext = os.path.splitext(upload.filename)
-	name = 'capa-evento'
-	if ext not in ('.png', '.jpg', '.jpeg'):
-		return "File extension not allowed."
-	save_path = "EventoImage/%s" % usuario_id
-	if not os.path.exists(save_path):
-		os.makedirs(save_path)
-
-	file_path = "{path}/{file}".format(path=save_path, file=upload.filename)
-	upload.save(file_path)
-	return "File successfully saved"
-
-@route('/usuario/upload', method='GET')
-def usuario_upload_get():
-	has_session()
-	return template('usuario/upload')
 
 @route('/usuario/delete',method='POST')
 def usuario_delete_post():
@@ -256,4 +235,28 @@ def ingresso_delete_get(_id):
 		return redirect('/ingresso')
 	return redirect('/')
 #Ingresso end
+#Evento begin
+@route('/evento/upload', method='POST')
+def evento_upload_post():
+	has_session()
+	usuario_id = get_session()
+	upload = request.files.get('upload')
+	name, ext = os.path.splitext(upload.filename)
+	file_path = save_path+"/"+upload.filename
+	
+	if ext not in ('.png', '.jpg', '.jpeg'):
+		return "File extension not allowed."
+	save_path = "EventoImage/"+usuario_id
+	if not os.path.exists(save_path):
+		os.makedirs(save_path)
+
+	
+	upload.save(file_path)
+	return "File successfully saved"
+
+@route('/evento/upload', method='GET')
+def evento_upload_get():
+	has_session()
+	return template('usuario/upload')
+#Evento end
 run(host='192.168.0.103',port='8080',debug=True,reloader=True,app=app)
