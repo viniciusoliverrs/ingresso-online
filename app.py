@@ -137,10 +137,11 @@ def usuario_edit_get():
 def usuario_delete_post():
 	has_session()
 	usuario_id = get_session()
-	if Ingresso().delete_all(usuario_id) and Conta().delete(usuario_id):
-		if Usuario().delete(usuario_id):
-			del_session()	
-			return redirect('/')
+	if Ingresso().delete_by_usuario(usuario_id):
+		if Conta().delete(usuario_id):
+			if Usuario().delete(usuario_id):
+				del_session()	
+	return redirect('/')
 
 @route('/usuario/delete',method='GET')
 def usuario_delete_get():
@@ -200,15 +201,19 @@ def ingresso_insert_post():
 	tipo = request.POST.tipo
 	quantidade = request.POST.quantidade
 	preco = request.POST.preco
+	evento_id = request.POST.evento_id
+	print evento_id
 	usuario_id = get_session()
-	if Ingresso().add(usuario_id,tipo,quantidade,preco):
+	if Ingresso().add(tipo,quantidade,preco,usuario_id,evento_id):
 		return redirect('/ingresso')
 	return redirect('/ingresso/insert')
 
 @route('/ingresso/insert',method='GET')
 def ingresso_insert_get():
 	has_session()
-	return template('view/ingresso/insert')
+	usuario_id = get_session()
+	evento = Evento().findAll(usuario_id)
+	return template('view/ingresso/insert',evento=evento)
 
 @route('/ingresso/edit/<_id>',method='POST')
 def ingresso_edit_post(_id):
@@ -216,8 +221,10 @@ def ingresso_edit_post(_id):
 	tipo = request.POST.tipo
 	quantidade = request.POST.quantidade
 	preco = request.POST.preco
+	evento_id = request.POST.evento_id
 	usuario_id = get_session()
-	if Ingresso().update(_id,usuario_id,tipo,quantidade,preco):
+
+	if Ingresso().update(tipo,quantidade,preco,evento_id,usuario_id,_id):
 		return redirect('/ingresso')
 	return redirect('/ingresso/edit/'+_id)
 
@@ -226,6 +233,7 @@ def ingresso_edit_get(_id):
 	has_session()
 	usuario_id = get_session()
 	dado = Ingresso().find(usuario_id,_id)
+	print dado
 	return template('view/ingresso/edit',dado=dado)
 
 @route('/ingresso/delete/<_id>',method='GET')
@@ -296,7 +304,8 @@ def evento_delete_get(_id):
 	has_session()
 	usuario_id = get_session()
 	if Evento().delete(usuario_id,_id):
-		return redirect('/evento')
+		if Ingresso().delete_by_evento(usuario_id,_id):
+			return redirect('/evento')
 	return redirect('/')
 #Evento end
 run(host='192.168.0.103',port='8080',debug=True,reloader=True,app=app)

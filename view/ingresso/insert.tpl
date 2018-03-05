@@ -17,7 +17,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4"></div>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>
@@ -29,7 +28,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4"></div>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>
@@ -41,7 +39,27 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Evento</label>
+                        %if len(evento) != 0:
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <select class="form-control" name="evento_id">
+                                    %for item in evento:
+                                        <option value="{{item[0]}}">{{item[1]}}</option>
+                                    %end
+                                </select>
+                        </div>
+                        %else:
+                        <div class="alert alert-warning" role="alert">
+                            Você não possui eventos cadastrados no sistema.
+                        </div>
+                        %end
+                    </div>
+                </div>
             </div>
             <div class="row" style="padding-top: 1rem">
             	<div class="col-md-4"></div>

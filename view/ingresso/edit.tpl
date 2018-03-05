@@ -13,7 +13,7 @@
                     <div class="form-group has-danger">
                         <label>Tipo</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" name="tipo" class="form-control" value="{{dado[2]}}" required autofocus/>
+                            <input type="text" name="tipo" class="form-control" value="{{dado[3]}}" required autofocus/>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label>Quantidade</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="number" name="quantidade" class="form-control" value="{{dado[3]}}" required/>
+                            <input type="number" name="quantidade" class="form-control" value="{{dado[4]}}" required/>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,19 @@
                     <div class="form-group">
                         <label>Preço</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" name="preco" class="form-control" value="{{dado[4]}}" required/>
+                            <input type="text" name="preco" class="form-control" value="{{dado[5]}}" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group has-danger">
+                        <label>CodEvento</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <input type="text" name="evento_id" class="form-control" value="{{dado[2]}}" required autofocus/>
                         </div>
                     </div>
                 </div>
