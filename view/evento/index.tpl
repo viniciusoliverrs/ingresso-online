@@ -1,15 +1,15 @@
-% rebase('./view/base.tpl',title='Meus ingressos')
+ % rebase('./view/base.tpl',title='Meus ingressos')
 <div class="row">
     <div class="col-md-3"></div>
         <div class="col-md-6">
-                    <h2 class="text-center">Meus ingressos:</h2>
+                    <h2 class="text-center">Meus eventos:</h2>
          	<hr/>
         </div>
     </div>
 	<div class="row">
 		<div class="col-md-3"></div>
 			<div class="col-md-6">
-				<a href="/ingresso/insert" ><img class="icones-image" title="Adicionar" src="/static/img/add.png"/></a>
+				<a href="/evento/insert" ><img class="icones-image" title="Adicionar" src="/static/img/add.png"/></a>
 		    </div>
 	    <div class="col-md-3"></div>
 	</div>
@@ -22,9 +22,9 @@
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Tipo</th>
-							<th scope="col">Unidade</th>
-							<th scope="col">Preco</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+							<th scope="col"></th>
 							<th></th>
 						</tr>
 					</thead>
@@ -46,7 +46,7 @@
 			<div class="col-md-3"></div>
 			%else:
 				<div class="alert alert-warning" role="alert">
-			  		Você não possui ingressos cadastrados no sistema.
+			  		Você não possui eventos cadastrados no sistema.
 				</div>
 			%end
 		</div>

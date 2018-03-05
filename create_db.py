@@ -28,9 +28,7 @@ CREATE TABLE Evento (
 	Endereco TEXT,
 	Numero INTEGER,
 	Bairro TEXT,
-	Telefone TEXT,
-	DataInicial TEXT,
-	DataFinal TEXT);
+	Telefone TEXT);
 
 CREATE TABLE Categoria (
 	Id INTEGER PRIMARY KEY,

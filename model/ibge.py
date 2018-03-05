@@ -6,6 +6,7 @@ class IBGE():
 		self.Etable = "Estado"
 		self.db = Database().conn()
 		self.cursor = self.db.cursor()
+
 	def find_all_json(self):
 		try:
 			sql = "SELECT c.Nome, e.Sigla FROM "+self.Ctable+" AS c JOIN "+self.Etable+" AS e ON e.Id = c.Estado_Id"
@@ -13,8 +14,7 @@ class IBGE():
 			rows = self.cursor.fetchall()
 			result = json.listForDict(cur, rows)
 			return result
-		except Exception as e:
-			print e
+		except Exception:
 			self.db.close()
 
 	def find_estado(self,_id):	
@@ -31,4 +31,12 @@ class IBGE():
 			self.cursor.execute(sql,[_id])
 			return self.cursor.fetchall()
 		except Exception:
-			self.db.close()	
+			self.db.close()
+
+	def findAll(self):
+		try:
+			sql = "SELECT c.Id,c.Nome, e.Sigla FROM "+self.Ctable+" AS c JOIN "+self.Etable+" AS e ON e.Id = c.Estado_Id ORDER BY e.Sigla"
+			self.cursor.execute(sql)
+			return self.cursor.fetchall()
+		except Exception:
+			self.db.close()

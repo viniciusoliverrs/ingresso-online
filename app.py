@@ -10,6 +10,7 @@ from beaker.middleware import SessionMiddleware
 # OBJETOS
 from model.usuario import Usuario
 from model.conta import Conta
+from model.evento import Evento
 from model.ingresso import Ingresso
 from model.categoria import Categoria
 from model.ibge import IBGE
@@ -207,7 +208,8 @@ def ingresso_insert_post():
 @route('/ingresso/insert',method='GET')
 def ingresso_insert_get():
 	has_session()
-	return template('view/ingresso/insert')
+	evento = Evento().findAll(usuario_id)
+	return template('view/ingresso/insert',dado=dado)
 
 @route('/ingresso/edit/<_id>',method='POST')
 def ingresso_edit_post(_id):
@@ -258,5 +260,36 @@ def evento_upload_post():
 def evento_upload_get():
 	has_session()
 	return template('usuario/upload')
+
+@route('/evento', method='GET')
+@route('/evento/index', method='GET')
+def evento_index_get():
+	has_session()
+	usuario_id = get_session()
+	dado = Evento().findAll(usuario_id)
+	return template('view/evento/index',dado=dado)
+
+@route('/evento/insert', method='POST')
+def evento_insert_post():
+	usuario_id = get_session()
+	titulo = request.POST.titulo
+	categoria_id = request.POST.categoria_id
+	descricao = request.POST.descricao
+	endereco = request.POST.endereco
+	numero = request.POST.numero
+	cidade_id = request.POST.cidade_id
+	bairro = request.POST.bairro
+	telefone = request.POST.telefone
+	if Evento().add(usuario_id,categoria_id,cidade_id,titulo,descricao,endereco,numero,bairro,telefone):
+		return redirect('/evento')
+	print 'Error'
+
+
+@route('/evento/insert', method='GET')
+def evento_insert_get():
+	#has_session()
+	cidade = IBGE().findAll() 
+	categoria = Categoria().findAll()
+	return template('view/evento/insert',categoria=categoria,cidade=cidade)
 #Evento end
 run(host='192.168.0.103',port='8080',debug=True,reloader=True,app=app)
