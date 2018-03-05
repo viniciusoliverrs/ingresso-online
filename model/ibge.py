@@ -40,3 +40,11 @@ class IBGE():
 			return self.cursor.fetchall()
 		except Exception:
 			self.db.close()
+
+	def find_by_cidade_id(self,cidade_id):
+		try:
+			sql = "SELECT c.Id,c.Nome, e.Sigla FROM "+self.Ctable+" AS c JOIN "+self.Etable+" AS e ON e.Id = c.Estado_Id WHERE c.Id = ?"
+			self.cursor.execute(sql,[cidade_id])
+			return self.cursor.fetchone()
+		except Exception:
+			self.db.close()

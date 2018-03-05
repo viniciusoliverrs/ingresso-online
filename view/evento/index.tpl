@@ -22,9 +22,7 @@
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col"></th>
-							<th scope="col"></th>
-							<th scope="col"></th>
+							<th scope="col">Descrição</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -35,8 +33,8 @@
 							<td scope="col">{{cel}}</td>
 							%end
 							<td>
-								<a href="/ingresso/edit/{{item[0]}}"><img class="icones-image" title="Editar" src="/static/img/edit.png"/></a>
-								<a href="/ingresso/delete/{{item[0]}}"><img class="icones-image" title="Excluir" src="/static/img/remove.png"/></a>
+								<a href="/evento/edit/{{item[0]}}"><img class="icones-image" title="Editar" src="/static/img/edit.png"/></a>
+								<a href="/evento/delete/{{item[0]}}"><img class="icones-image" title="Excluir" src="/static/img/remove.png"/></a>
 							</td>
 						</tr>
 						%end

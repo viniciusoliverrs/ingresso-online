@@ -8,45 +8,45 @@ class Ingresso():
 
 	def findAll(self,usuario_id):		
 		try:
-			sql = "SELECT Id, Tipo, Quantidade, Preco FROM %s WHERE Usuario_Id = ?" % self.table
+			sql = "SELECT Id, Tipo, Quantidade, Preco, Evento_Id FROM %s WHERE Usuario_Id = ?" % self.table
 			self.cursor.execute(sql,[usuario_id])
 			return self.cursor.fetchall()
 		except Exception:
 			self.db.close()
 			
-	def find(self,usuario_id,_id):
+	def find(self,Usuario_Id,Id):
 		try:
 			sql = "SELECT * FROM %s WHERE Usuario_Id = ? AND Id = ?" % self.table
-			self.cursor.execute(sql,[usuario_id,_id])
+			self.cursor.execute(sql,[Usuario_Id,Id])
 			return self.cursor.fetchone()
 		except Exception:
 			self.db.close()
 
-	def update(self,_id,usuario_id,tipo,quantidade,preco):
+	def update(self,Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Id):
 		try:
 			print quantidade
-			sql = "UPDATE %s SET Tipo = ? , Quantidade = ?, Preco = ? WHERE Usuario_Id = ? AND Id = ?" % self.table
-			self.cursor.execute(sql,[tipo,quantidade,preco,usuario_id,_id])
+			sql = "UPDATE %s SET Tipo = ? , Quantidade = ?, Preco = ?, Evento_Id = ? WHERE Usuario_Id = ? AND Id = ?" % self.table
+			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Id])
 			self.db.commit()
 			self.db.close()
 			return True
 		except Exception:
 			return False
 
-	def add(self,usuario_id,tipo,quantidade,preco):
+	def add(self,Tipo,Quantidade,Preco,Usuario_Id,Evento_Id):
 		try:
-			sql = "INSERT INTO %s (Tipo,Quantidade,Preco,Usuario_Id) VALUES (?,?,?,?)" % self.table
-			self.cursor.execute(sql,[tipo,quantidade,preco,usuario_id])
+			sql = "INSERT INTO %s (Tipo,Quantidade,Preco,Usuario_Id,Evento_Id) VALUES (?,?,?,?,?)" % self.table
+			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Usuario_Id,Evento_Id])
 			self.db.commit()
 			self.db.close()
 			return True
 		except Exception:
 			return False
 
-	def delete(self,usuario_id,_id):
+	def delete(self,Usuario_Id,Id):
 		try:
 			sql = "DELETE FROM %s WHERE Usuario_Id = ? AND Id = ?" % self.table
-			self.cursor.execute(sql,[usuario_id,_id])
+			self.cursor.execute(sql,[Usuario_Id,Id])
 			self.db.commit()
 			self.db.close()
 			return True

@@ -37,6 +37,7 @@ CREATE TABLE Categoria (
 CREATE TABLE Ingresso (
 	Id INTEGER PRIMARY KEY,
 	Usuario_Id INTEGER,
+	Evento_Id INTEGER,
 	Tipo TEXT,
 	Quantidade INTEGER,
 	Preco TEXT);

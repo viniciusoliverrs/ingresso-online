@@ -208,8 +208,7 @@ def ingresso_insert_post():
 @route('/ingresso/insert',method='GET')
 def ingresso_insert_get():
 	has_session()
-	evento = Evento().findAll(usuario_id)
-	return template('view/ingresso/insert',dado=dado)
+	return template('view/ingresso/insert')
 
 @route('/ingresso/edit/<_id>',method='POST')
 def ingresso_edit_post(_id):
@@ -271,6 +270,7 @@ def evento_index_get():
 
 @route('/evento/insert', method='POST')
 def evento_insert_post():
+	has_session()
 	usuario_id = get_session()
 	titulo = request.POST.titulo
 	categoria_id = request.POST.categoria_id
@@ -284,12 +284,19 @@ def evento_insert_post():
 		return redirect('/evento')
 	print 'Error'
 
-
 @route('/evento/insert', method='GET')
 def evento_insert_get():
-	#has_session()
+	has_session()
 	cidade = IBGE().findAll() 
 	categoria = Categoria().findAll()
 	return template('view/evento/insert',categoria=categoria,cidade=cidade)
+
+@route('/evento/delete/<_id>',method='GET')
+def evento_delete_get(_id):
+	has_session()
+	usuario_id = get_session()
+	if Evento().delete(usuario_id,_id):
+		return redirect('/evento')
+	return redirect('/')
 #Evento end
 run(host='192.168.0.103',port='8080',debug=True,reloader=True,app=app)
