@@ -44,7 +44,8 @@ class Usuario():
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception:
+		except Exception as e:
+			print e
 			return False
 			
 

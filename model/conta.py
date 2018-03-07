@@ -13,14 +13,15 @@ class Conta():
 		except Exception:
 			self.db.close()		
 
-	def add(self,usuario_id,data_criacao):
+	def add(self,Usuario_Id,Nome,Cpf,Telefone,DataCriacao):
 		try:
 			sql = "INSERT INTO %s (Usuario_Id,Nome,Cpf,Telefone,DataCriacao) VALUES (?,?,?,?,?)" % self.table
-			self.cursor.execute(sql,[usuario_id,'','','',data_criacao])
+			self.cursor.execute(sql,[Usuario_Id,Nome,Cpf,Telefone,DataCriacao])
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception:
+		except Exception as e:
+			print e
 			return False
 			
 			

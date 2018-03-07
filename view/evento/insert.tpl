@@ -69,7 +69,7 @@
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <select name="cidade_id" class="form-control">
                                 %for item in cidade:
-                                    <option value="{{item[0]}}">{{item[1]}} | {{item[2]}}</option>
+                                    <option value="{{item[0]}}">{{item[2]}} | {{item[1]}}</option>
                                 %end
                             </select>
                         </div>

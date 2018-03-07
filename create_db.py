@@ -2,7 +2,10 @@
 import sqlite3
 c = sqlite3.connect('IngressoOnline.db')
 
+c.execute('PRAGMA foreign_keys = ON');
+
 c.executescript("""
+
 	CREATE TABLE Usuario ( 
 	Id INTEGER PRIMARY KEY, 
 	Email TEXT, 
@@ -28,7 +31,8 @@ CREATE TABLE Evento (
 	Endereco TEXT,
 	Numero INTEGER,
 	Bairro TEXT,
-	Telefone TEXT);
+	Telefone TEXT,
+	FOREIGN KEY(Usuario_Id) REFERENCES Usuario(Id));
 
 CREATE TABLE Categoria (
 	Id INTEGER PRIMARY KEY,
@@ -40,7 +44,9 @@ CREATE TABLE Ingresso (
 	Evento_Id INTEGER,
 	Tipo TEXT,
 	Quantidade INTEGER,
-	Preco TEXT);
+	Preco TEXT,
+	FOREIGN KEY(Evento_Id) REFERENCES Evento(Id)
+	FOREIGN KEY(Usuario_Id) REFERENCES Usuario(Id));
 
 CREATE TABLE Bilhete (
 	Id INTEGER PRIMARY KEY,

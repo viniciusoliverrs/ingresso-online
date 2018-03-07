@@ -35,15 +35,18 @@ def log_to_logger(fn):
 
 install(log_to_logger)	
 TEMPLATE_PATH.insert(0,"view")
-_session_opts = {'session.type':'memory','_session.cookie_expires':600,'_session.auto': True}
-#_session_opts = {'session.type': 'file','session.data_dir': '/openmining.data','session.lock_dir': '/openmining.lock','session.cookie_expires': 5000,'session.auto': True}
+#_session_opts = {'session.type':'memory','_session.cookie_expires':600,'_session.auto': True}
+_session_opts = {'session.type': 'file','session.data_dir': '/openmining.data','session.lock_dir': '/openmining.lock','session.cookie_expires': 5000,'session.auto': True}
 app = SessionMiddleware(app(), _session_opts)
 
 def has_session():
 	_session = request.environ.get('beaker.session')
 	if not _session or 'usuario_id' not in _session:
 		return redirect('/login')
-
+def set_session(key,value):
+	_session = request.environ['beaker.session']
+	_session[key] = value
+	_session.save()
 def del_session():
 	_session = request.environ['beaker.session']
 	_session.delete()
@@ -97,15 +100,23 @@ def usuario_profile_get():
 
 @route('/usuario/register',method='POST')
 def usuario_register_post():		
+	nome = request.POST.nome
 	email = request.POST.email
 	senha = request.POST.senha
-	senha = set_passwh(senha)
+	senha2 = request.POST.senha2	
+	cpf = request.POST.cpf
+	telefone = request.POST.telefone
 	data_criacao = str(datetime.now())[0:19]
+
+	if senha != senha2:
+		return redirect(request.path)
+	senha = set_passwh(senha)
+		
 	if Usuario().add(email,senha):
 		usuario_id = Usuario().find_by_email(email)[0]
-		if Conta().add(usuario_id,data_criacao):
-			redirect('/login')
-	redirect("/")
+		if Conta().add(usuario_id,nome,cpf,telefone,data_criacao):
+			set_session('usuario_id',usuario_id)
+	return redirect("/")
 
 
 @route('/usuario/register',method='GET')
@@ -155,10 +166,9 @@ def usuario_login_post():
 	dado = Usuario().find_by_email(email)
 	if check_password(senha,dado[2]):
 		_session = request.environ['beaker.session']
-		_session['usuario_id'] = dado[0]
-		_session.save()
-		return redirect('/')
-	return redirect('/login')
+		if set_session('usuario_id',dado[0]):
+			return redirect('/')
+	return redirect(request.path)
 
 @route('/login',method='GET')
 def usuario_login_get():
@@ -170,13 +180,16 @@ def reset_password_get():
 	senha_atual = request.POST.senha_atual
 	nova_senha = request.POST.nova_senha
 	nova_senha2 = request.POST.nova_senha2
+	if nova_senha != nova_senha2:
+		return redirect(request.path)
+
 	usuario_id = get_session()
 	dado = Usuario().find(usuario_id)
 	if check_password(senha_atual,dado[2]):
-		if nova_senha == nova_senha2:
-			nova_senha = set_passwh(nova_senha)
-			if Usuario().reset_password(nova_senha,get_session()):
-				return redirect('/logout')
+		nova_senha = set_passwh(nova_senha)
+		if Usuario().reset_password(nova_senha,get_session()):
+			return redirect('/')
+
 	return redirect(request.path)
 
 @route('/usuario/reset',method='GET')
@@ -192,7 +205,6 @@ def ingresso_index_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Ingresso().findAll(usuario_id)
-	print dado
 	return template('view/ingresso/index',dado=dado)
 @route('/ingresso/insert',method='POST')
 def ingresso_insert_post():

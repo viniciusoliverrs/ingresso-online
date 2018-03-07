@@ -34,8 +34,9 @@
                     <div class="form-group">
                         <label>Preço</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" name="preco" class="form-control" required/>
-                        </div>
+                            <div class="input-group-prepend"><span class="input-group-text">R$:</span></div>
+                                <input type="text" class="form-control text-right" />
+                            </div>
                     </div>
                 </div>
             </div>
@@ -53,9 +54,9 @@
                                 </select>
                         </div>
                         %else:
-                        <div class="alert alert-warning" role="alert">
-                            Você não possui eventos cadastrados no sistema.
-                        </div>
+                            <div class="alert alert-warning" role="alert">
+                                Você não possui eventos cadastrados no sistema.
+                            </div>
                         %end
                     </div>
                 </div>
@@ -64,7 +65,9 @@
             	<div class="col-md-4"></div>
                 <div class="col-md-4">
                     <a href="#" class="btn btn-secondary" onclick="window.history.go(-1)">Voltar</a>
+                    %if len(evento) != 0:
                     <button class="btn float-md-right btn-success">Criar</button>
+                    %end
                 </div>
                 <div class="col-md-4"></div>
             </div>
