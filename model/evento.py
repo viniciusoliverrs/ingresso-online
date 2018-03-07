@@ -39,12 +39,3 @@ class Evento():
 			return True
 		except Exception:
 			return False
-	def delete_all(self,Usuario_id):
-			try:
-				sql = "DELETE FROM %s WHERE Usuario_Id = ?" % self.table
-				self.cursor.execute(sql,[Usuario_id])
-				self.db.commit()
-				self.db.close()
-				return True
-			except Exception:
-				return False

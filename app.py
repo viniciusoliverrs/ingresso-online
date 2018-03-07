@@ -137,10 +137,8 @@ def usuario_edit_get():
 def usuario_delete_post():
 	has_session()
 	usuario_id = get_session()
-	if Ingresso().delete_by_usuario(usuario_id):
-		if Conta().delete(usuario_id):
-			if Usuario().delete(usuario_id):
-				del_session()	
+	if Usuario().delete(usuario_id):
+		del_session()	
 	return redirect('/')
 
 @route('/usuario/delete',method='GET')
@@ -194,6 +192,7 @@ def ingresso_index_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Ingresso().findAll(usuario_id)
+	print dado
 	return template('view/ingresso/index',dado=dado)
 @route('/ingresso/insert',method='POST')
 def ingresso_insert_post():
@@ -202,7 +201,6 @@ def ingresso_insert_post():
 	quantidade = request.POST.quantidade
 	preco = request.POST.preco
 	evento_id = request.POST.evento_id
-	print evento_id
 	usuario_id = get_session()
 	if Ingresso().add(tipo,quantidade,preco,usuario_id,evento_id):
 		return redirect('/ingresso')
@@ -221,10 +219,9 @@ def ingresso_edit_post(_id):
 	tipo = request.POST.tipo
 	quantidade = request.POST.quantidade
 	preco = request.POST.preco
-	evento_id = request.POST.evento_id
 	usuario_id = get_session()
 
-	if Ingresso().update(tipo,quantidade,preco,evento_id,usuario_id,_id):
+	if Ingresso().update(tipo,quantidade,preco,usuario_id,_id):
 		return redirect('/ingresso')
 	return redirect('/ingresso/edit/'+_id)
 
@@ -266,7 +263,7 @@ def evento_upload_post():
 @route('/evento/upload', method='GET')
 def evento_upload_get():
 	has_session()
-	return template('usuario/upload')
+	return template('view/evento/upload')
 
 @route('/evento', method='GET')
 @route('/evento/index', method='GET')
@@ -304,8 +301,7 @@ def evento_delete_get(_id):
 	has_session()
 	usuario_id = get_session()
 	if Evento().delete(usuario_id,_id):
-		if Ingresso().delete_by_evento(usuario_id,_id):
-			return redirect('/evento')
+		return redirect('/evento')
 	return redirect('/')
 #Evento end
 run(host='192.168.0.103',port='8080',debug=True,reloader=True,app=app)

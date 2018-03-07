@@ -1,7 +1,6 @@
  % rebase('./view/base.tpl',title='Meus ingressos')
 <div class="row">
-    <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-12">
                     <h2 class="text-center">Meus eventos:</h2>
          	<hr/>
         </div>
@@ -10,6 +9,7 @@
 		<div class="col-md-3"></div>
 			<div class="col-md-6">
 				<a href="/evento/insert" ><img class="icones-image" title="Adicionar" src="/static/img/add.png"/></a>
+				<a href="/evento/upload" ><img class="icones-image" title="Upload imagem" src="/static/img/cloud-upload.png"/></a>
 		    </div>
 	    <div class="col-md-3"></div>
 	</div>

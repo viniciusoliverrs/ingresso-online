@@ -1,7 +1,6 @@
 % rebase('./view/base.tpl', title='Minha Conta')
 <div class="row">
-	<div class="col-md-3"></div>
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<h2 class="text-center">Minha Conta:</h2>
 		<hr/>
 	</div>

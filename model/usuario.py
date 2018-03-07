@@ -25,14 +25,15 @@ class Usuario():
 		except Exception:
 			return False
 
-	def delete(self,_id):
+	def delete(self,usuario_id):
 		try:
 			sql = "DELETE FROM %s WHERE Id = ?" % self.table
-			self.cursor.execute(sql,(_id,))
+			self.cursor.execute(sql,[usuario_id])
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception:
+		except Exception as e:
+			print e
 			return False
 			
 

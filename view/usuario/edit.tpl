@@ -1,8 +1,7 @@
 % rebase('view/base.tpl', title='Edit')
 <form class="form-horizontal" role="form" method="POST" action="/usuario/edit">
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <h2 class="text-center">Editar conta:</h2>
                     <hr/>
                 </div>

@@ -16,7 +16,7 @@
 	<div class="row" style="margin-top:10px;">
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
-			%if len(dado) > 0:
+			%if len(dado) != 0:
 			<div class="table-responsive">
 				<table class="table">
 					<thead class="thead-dark">
@@ -25,7 +25,7 @@
 							<th scope="col">Tipo</th>
 							<th scope="col">Unidade</th>
 							<th scope="col">Preco</th>
-							<th scope="col">CodEvento</th>
+							<th scope="col">Evento</th>
 							<th></th>
 						</tr>
 					</thead>

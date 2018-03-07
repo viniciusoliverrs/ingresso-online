@@ -9,7 +9,7 @@ class Ingresso():
 
 	def findAll(self,Usuario_Id):		
 		try:
-			sql = "SELECT Id, Tipo, Quantidade, Preco, Evento_Id FROM %s WHERE Usuario_Id = ?" % self.table
+			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco,evento.Titulo FROM ingresso JOIN evento ON evento.Id = ingresso.Evento_Id WHERE ingresso.Usuario_Id = ?".format(ingresso=self.table,evento=self.Etable)
 			self.cursor.execute(sql,[Usuario_Id])
 			return self.cursor.fetchall()
 		except Exception:
@@ -23,14 +23,15 @@ class Ingresso():
 		except Exception:
 			self.db.close()
 
-	def update(self,Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Id):
+	def update(self,Tipo,Quantidade,Preco,Usuario_Id,Id):
 		try:
-			sql = "UPDATE %s SET Tipo = ? , Quantidade = ?, Preco = ?, Evento_Id = ? WHERE Usuario_Id = ? AND Id = ?" % self.table
-			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Id])
+			sql = "UPDATE %s SET Tipo = ? , Quantidade = ?, Preco = ? WHERE Usuario_Id = ? AND Id = ?" % self.table
+			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Usuario_Id,Id])
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception:
+		except Exception as e:
+			print e
 			return False
 
 	def add(self,Tipo,Quantidade,Preco,Usuario_Id,Evento_Id):
@@ -53,21 +54,3 @@ class Ingresso():
 			return True
 		except Exception:
 			return False
-	def delete_by_evento(self,Usuario_Id,Evento_Id):
-			try:
-				sql = "DELETE FROM %s WHERE Usuario_Id = ? AND Evento_Id = ?" % self.table
-				self.cursor.execute(sql,[Usuario_Id,Evento_Id])
-				self.db.commit()
-				self.db.close()
-				return True
-			except Exception:
-				return False		
-	def delete_by_usuario(self,usuario_id):
-			try:
-				sql = "DELETE FROM %s WHERE Usuario_Id = ?" % self.table
-				self.cursor.execute(sql,[usuario_id])
-				self.db.commit()
-				self.db.close()
-				return True
-			except Exception:
-				return False

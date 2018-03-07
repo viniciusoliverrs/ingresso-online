@@ -11,16 +11,7 @@ class Conta():
 			self.cursor.execute(sql,(usuario_id,))
 			return self.cursor.fetchone()
 		except Exception:
-			self.db.close()
-	def delete(self,usuario_id):
-		try:
-			sql = "DELETE FROM %s where Usuario_Id = ?" % self.table
-			self.cursor.execute(sql,(usuario_id,))
-			self.db.commit()
-			self.db.close()
-			return True
-		except Exception:
-			return False			
+			self.db.close()		
 
 	def add(self,usuario_id,data_criacao):
 		try:
