@@ -48,13 +48,12 @@ CREATE TABLE Ingresso (
 	FOREIGN KEY(Evento_Id) REFERENCES Evento(Id)
 	FOREIGN KEY(Usuario_Id) REFERENCES Usuario(Id));
 
-CREATE TABLE Bilhete (
+CREATE TABLE Carrinho (
 	Id INTEGER PRIMARY KEY,
-	Evento_Id INTEGER,
 	Ingresso_Id INTEGER,
 	Usuario_Id INTEGER,
 	DataEmitido TEXT,
-	Unidade INTEGER,
+	Quantidade INTEGER,
 	Token TEXT);
 
 CREATE TABLE Cidade (

@@ -185,10 +185,12 @@ def reset_password_get():
 
 	usuario_id = get_session()
 	dado = Usuario().find(usuario_id)
-	if check_password(senha_atual,dado[2]):
-		nova_senha = set_passwh(nova_senha)
-		if Usuario().reset_password(nova_senha,get_session()):
-			return redirect('/')
+	if not check_password(senha_atual,dado[2]):
+		return redirect(request.path)
+
+	nova_senha = set_passwh(nova_senha)
+	if Usuario().reset_password(nova_senha,get_session()):
+		return redirect('/')
 
 	return redirect(request.path)
 
@@ -307,6 +309,31 @@ def evento_insert_get():
 	cidade = IBGE().findAll() 
 	categoria = Categoria().findAll()
 	return template('view/evento/insert',categoria=categoria,cidade=cidade)
+@route('/evento/edit/<_id>', method='POST')
+def evento_edit_post(_id):
+	has_session()
+	usuario_id = get_session()
+	titulo = request.POST.titulo
+	categoria_id = request.POST.categoria_id
+	descricao = request.POST.descricao
+	endereco = request.POST.endereco
+	numero = request.POST.numero
+	cidade_id = request.POST.cidade_id
+	bairro = request.POST.bairro
+	telefone = request.POST.telefone
+	print 'after if'
+	if Evento().update(_id,usuario_id,categoria_id,cidade_id,titulo,descricao,endereco,numero,bairro,telefone):
+		print 'before if'
+		return redirect('/evento')
+	print 'Error'
+@route('/evento/edit/<_id>',method='GET')
+def evento_edit_get(_id):
+	has_session()
+	usuario_id = get_session()
+	dado = Evento().find(usuario_id,_id)
+	cidade = IBGE().findAll() 
+	categoria = Categoria().findAll()
+	return template('view/evento/edit',cidade=cidade,categoria=categoria,dado=dado)
 
 @route('/evento/delete/<_id>',method='GET')
 def evento_delete_get(_id):

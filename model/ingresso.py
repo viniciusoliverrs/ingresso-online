@@ -30,8 +30,7 @@ class Ingresso():
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception as e:
-			print e
+		except Exception:
 			return False
 
 	def add(self,Tipo,Quantidade,Preco,Usuario_Id,Evento_Id):
