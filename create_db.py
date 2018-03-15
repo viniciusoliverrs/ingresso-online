@@ -64,6 +64,7 @@ CREATE TABLE Cidade (
 
 CREATE TABLE Estado (
 	Id INTEGER PRIMARY KEY,
+	Nome TEXT,
 	Sigla TEXT);
 """)
 
@@ -81,33 +82,33 @@ INSERT INTO 'Categoria' VALUES
 	(10,'Religioso, espiritual');
 
 INSERT INTO 'Estado' VALUES
-(1, 'AC'),
-(2, 'AL'),
-(3, 'AM'),
-(4, 'AP'),
-(5, 'BA'),
-(6, 'CE'),
-(7, 'DF'),
-(8, 'ES'),
-(9, 'GO'),
-(10, 'MA'),
-(11, 'MG'),
-(12, 'MS'),
-(13, 'MT'),
-(14, 'PA'),
-(15, 'PB'),
-(16, 'PE'),
-(17, 'PI'),
-(18, 'PR'),
-(19, 'RJ'),
-(20, 'RN'),
-(21, 'RO'),
-(22, 'RR'),
-(23, 'RS'),
-(24, 'SC'),
-(25, 'SE'),
-(26, 'SP'),
-(27, 'TO');
+(1, 'Acre', 'AC'),
+(2, 'Alagoas', 'AL'),
+(3, 'Amazonas', 'AM'),
+(4, 'Amapá', 'AP'),
+(5, 'Bahia', 'BA'),
+(6, 'Ceará', 'CE'),
+(7, 'Distrito Federal', 'DF'),
+(8, 'Espírito Santo', 'ES'),
+(9, 'Goiás', 'GO'),
+(10, 'Maranhão', 'MA'),
+(11, 'Minas Gerais', 'MG'),
+(12, 'Mato Grosso do Sul', 'MS'),
+(13, 'Mato Grosso', 'MT'),
+(14, 'Pará', 'PA'),
+(15, 'Paraíba', 'PB'),
+(16, 'Pernambuco', 'PE'),
+(17, 'Piauí', 'PI'),
+(18, 'Paraná', 'PR'),
+(19, 'Rio de Janeiro', 'RJ'),
+(20, 'Rio Grande do Norte', 'RN'),
+(21, 'Rondônia', 'RO'),
+(22, 'Roraima', 'RR'),
+(23, 'Rio Grande do Sul', 'RS'),
+(24, 'Santa Catarina', 'SC'),
+(25, 'Sergipe', 'SE'),
+(26, 'São Paulo', 'SP'),
+(27, 'Tocantins', 'TO');
 
 INSERT INTO 'Cidade' VALUES
  (3, 'Brasiléia', 1),

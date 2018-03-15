@@ -75,6 +75,11 @@ def logout_get():
 def api_ibge():
 	dado = IBGE().find_all_json()
 	return dado
+
+@route('/api/categoria',method='GET')
+def api_categoria_get():
+	dado = Categoria().find_all_json()
+	return dado
 # JSON end
 @route('/',method='GET')
 def main_page():
@@ -301,7 +306,7 @@ def evento_insert_post():
 	telefone = request.POST.telefone
 	if Evento().add(usuario_id,categoria_id,cidade_id,titulo,descricao,endereco,numero,bairro,telefone):
 		return redirect('/evento')
-	print 'Error'
+	return "Ocorreu um erro<a href='%s'>Go back</a>" % request.path
 
 @route('/evento/insert', method='GET')
 def evento_insert_get():

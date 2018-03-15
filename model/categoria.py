@@ -1,5 +1,5 @@
 from database import Database
-
+import listJson as json
 class Categoria():
 	def __init__(self):
 		self.table = "Categoria"
@@ -26,3 +26,13 @@ class Categoria():
 			raise e
 		finally:
 			db.close()
+
+	def find_all_json(self):	
+		try:
+			sql = "SELECT * FROM %s"% self.table
+			cur = self.cursor.execute(sql)
+			rows = self.cursor.fetchall()
+			result = json.listForDict(cur, rows)
+			return result
+		except Exception:
+			self.db.close()
