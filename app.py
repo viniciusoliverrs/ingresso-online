@@ -285,6 +285,12 @@ def evento_upload_get():
 	has_session()
 	return template('view/evento/upload')
 
+@route('/evento/<_id>', method='GET')
+def page_evento_get(_id):
+	dado = Evento().find_by_evento_id(_id)
+	ingresso = Ingresso().find_by_evento_id(_id)
+	return template('view/evento/show',dado=dado,ingresso=ingresso)
+	
 @route('/evento', method='GET')
 @route('/evento/index', method='GET')
 def evento_index_get():
@@ -349,4 +355,9 @@ def evento_delete_get(_id):
 		return redirect('/evento')
 	return redirect('/')
 #Evento end
+#Shopping cart begin
+@route('add-cart/<Evento_Id>/<Ingresso_Id>',method='GET')
+def add_cart_get():
+	return 'add ok!'
+#Shopping cart begin
 run(host='192.168.0.103',port='8080',debug=True,reloader=True,app=app)

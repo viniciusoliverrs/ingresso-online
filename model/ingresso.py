@@ -53,3 +53,11 @@ class Ingresso():
 			return True
 		except Exception:
 			return False
+
+	def find_by_evento_id(self,Evento_Id):
+		try:
+			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco FROM %s WHERE Evento_Id = ?" % self.table
+			self.cursor.execute(sql,[Evento_Id])
+			return self.cursor.fetchall()
+		except Exception:
+			self.db.close()

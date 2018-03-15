@@ -3,7 +3,6 @@ from database import Database
 class Evento():
 	def __init__(self):
 		self.table = "Evento"
-		self.Itable = "Ingresso"
 		self.Ctable = "Cidade"
 		self.Etable = "Estado"
 		self.CTtable = "Categoria"
@@ -62,4 +61,13 @@ class Evento():
 			self.cursor.execute(sql)
 			return self.cursor.fetchall()
 		except Exception:
+			self.db.close()
+
+	def find_by_evento_id(self,Id):
+		try:
+			sql = "SELECT evento.Id,evento.Titulo,evento.Descricao,categoria.Nome,evento.Endereco,evento.Numero,evento.Bairro,evento.Telefone,cidade.Nome,estado.Nome FROM evento JOIN categoria ON categoria.Id = evento.Categoria_Id JOIN cidade ON cidade.Id = evento.Cidade_Id JOIN estado ON estado.Id = cidade.Estado_Id WHERE evento.Id = ?".format(evento=self.table,cidade=self.Ctable,estado=self.Etable,categoria=self.CTtable)
+			self.cursor.execute(sql,[Id])
+			return self.cursor.fetchone()
+		except Exception as e:
+			print e
 			self.db.close()

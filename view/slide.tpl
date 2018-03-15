@@ -25,8 +25,11 @@
             </a>
           </div>
           <style type="text/css">
+          /*
+            900x350 tamanho imagem 
+          */
             div.carousel-inner img.img-fluid{
                 width: 900px;
-                height: 350px;
+                height: 300px;
             }
           </style>

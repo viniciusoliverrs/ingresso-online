@@ -5,20 +5,15 @@
 				<a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
 				<div class="card-body">
 					<h4 class="card-title">
-						<a href="{{item[0]}}">{{item[1]}}</a>
+						<a href="/evento/{{item[0]}}">{{item[1]}}</a>
 					</h4>
 					<p class="card-text">{{item[2]}}</p>
 				</div>
-				<!--
-				<div class="card-footer">
-					<small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-				</div>
-				-->
 			</div>
 		</div>
 	%end
 %else:
-	<div class="alert alert-info" role="alert">
+	<div class="alert alert-info" role="alert" style="margin: 0 auto;">
 		O sistema não possui eventos cadastrados.
 	</div>
 %end
