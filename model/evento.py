@@ -3,6 +3,7 @@ from database import Database
 class Evento():
 	def __init__(self):
 		self.table = "Evento"
+		self.Itable = "Ingresso"
 		self.Ctable = "Cidade"
 		self.Etable = "Estado"
 		self.CTtable = "Categoria"
@@ -54,3 +55,11 @@ class Evento():
 			return True
 		except Exception:
 			return False
+
+	def listAll(self):
+		try:
+			sql = "SELECT Id, Titulo, Descricao FROM %s" % self.table
+			self.cursor.execute(sql)
+			return self.cursor.fetchall()
+		except Exception:
+			self.db.close()

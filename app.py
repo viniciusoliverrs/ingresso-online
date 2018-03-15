@@ -85,7 +85,8 @@ def api_categoria_get():
 def main_page():
 	categoria = Categoria().findAll()
 	usuario_id = get_session()
-	return template('view/index',categoria=categoria,usuario_id=usuario_id)
+	evento = Evento().listAll()
+	return template('view/index',evento=evento,categoria=categoria,usuario_id=usuario_id)
 
 @route('/static/<filename:path>')
 def static_routes(filename):

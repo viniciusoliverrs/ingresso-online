@@ -1,4 +1,4 @@
- % rebase('./view/base.tpl',title='Meus ingressos')
+ % rebase('./view/base.tpl',title='Meus eventos')
 <div class="row">
         <div class="col-md-12">
                     <h2 class="text-center">Meus eventos:</h2>

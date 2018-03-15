@@ -1,4 +1,4 @@
-% rebase('view/base.tpl', title='Register')
+% rebase('view/base.tpl', title='Criar evento')
 <form class="form-horizontal" role="form" method="POST" action="/evento/insert">
             <div class="row">
                 <div class="col-md-12">
