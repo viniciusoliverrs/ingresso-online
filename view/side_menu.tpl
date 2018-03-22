@@ -4,7 +4,7 @@
    <a class="list-group-item" href="/usuario/profile">Perfil</a>
    <a class="list-group-item" href="/ingresso">Meus ingressos</a>
    <a class="list-group-item" href="/evento">Meus eventos</a>
-   <a class="list-group-item" href="#">Meu carrinho</a>
+   <a class="list-group-item" href="/carrinho">Meu carrinho</a>
    <a class="list-group-item" href="/logout">Sair</a>
 </div>
 %else:

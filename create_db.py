@@ -52,9 +52,9 @@ CREATE TABLE Carrinho (
 	Id INTEGER PRIMARY KEY,
 	Ingresso_Id INTEGER,
 	Usuario_Id INTEGER,
-	DataEmitido TEXT,
 	Quantidade INTEGER,
-	Token TEXT);
+	Status INTEGER,
+	DataEmitido TEXT);
 
 CREATE TABLE Cidade (
 	Id INTEGER PRIMARY KEY, 

@@ -37,6 +37,7 @@
                             <div class="input-group-prepend"><span class="input-group-text">R$:</span></div>
                                 <input type="text" name="preco" class="form-control text-right" />
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

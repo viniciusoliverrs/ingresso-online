@@ -1,10 +1,11 @@
 % rebase('view/base.tpl', title='Ver evento')
 <div class="row">
         <div class="col-md-12">
-               <img src="" style="width:900px;height:300px;background-color:#333;" alt="Aqui vai ter uma imagem" />
+               <img src="" style="width:100%;height:300px;" href="#" alt="Aqui vai ter uma imagem" />
          	<hr/>
         </div>
     </div>
+    <div class="row">
 		<div class="col-md-12">
 				<table class="table table-striped">
 					<tbody>
@@ -42,35 +43,30 @@
 						</tr>
 					</tbody>
 				</table>
-		</div>
+		</div>    	
+    </div>
+    <div class="row">
 		<div class="col-md-12">
 			%if len(ingresso) != 0:
-				<table class="table">
+				<table class="table" id="listIngresso">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col">#</th>
 							<th scope="col">Tipo</th>
-							<th scope="col">Unidade disponivel</th>
 							<th scope="col">Preço</th>
+							<th scope="col">Quantidade</th>
+							<th scope="col">Subtotal</th>
 							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
-						%for item in ingresso:
-						<tr>
-							%for col in item:
-							<td scope="col">{{col}}</td>
-							%end
-							<td>
-								<a href="/add-cart/{{dado[0]}}/{{item[0]}}"><img class="icones-image" title="Adicionar no carrinho" src="/static/img/shopping-cart.png"/></a>
-							</td>
-						</tr>
-						%end
+						%include('./view/carrinho/insert.tpl')
 					</tbody>
 				</table>
+
 			%else:
 				<div class="alert alert-info" role="alert">
 			  		Nenhum ingresso disponivel.
 				</div>
 			%end
+	</div>
 </div>

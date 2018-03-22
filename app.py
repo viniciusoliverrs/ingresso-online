@@ -11,6 +11,7 @@ from beaker.middleware import SessionMiddleware
 from model.usuario import Usuario
 from model.conta import Conta
 from model.evento import Evento
+from model.carrinho import Carrinho
 from model.ingresso import Ingresso
 from model.categoria import Categoria
 from model.ibge import IBGE
@@ -35,14 +36,15 @@ def log_to_logger(fn):
 
 install(log_to_logger)	
 TEMPLATE_PATH.insert(0,"view")
-#_session_opts = {'session.type':'memory','_session.cookie_expires':600,'_session.auto': True}
-_session_opts = {'session.type': 'file','session.data_dir': '/openmining.data','session.lock_dir': '/openmining.lock','session.cookie_expires': 5000,'session.auto': True}
+_session_opts = {'session.type':'memory','_session.cookie_expires':600,'_session.auto': True}
+#_session_opts = {'session.type': 'file','session.data_dir': '/openmining.data','session.lock_dir': '/openmining.lock','session.cookie_expires': 5000,'session.auto': True}
 app = SessionMiddleware(app(), _session_opts)
 
 def has_session():
 	_session = request.environ.get('beaker.session')
 	if not _session or 'usuario_id' not in _session:
 		return redirect('/login')
+
 def set_session(key,value):
 	_session = request.environ['beaker.session']
 	_session[key] = value
@@ -70,17 +72,6 @@ def logout_get():
 	del_session()
 	return redirect("/")
 
-# JSON begin
-@route('/api/ibge')
-def api_ibge():
-	dado = IBGE().find_all_json()
-	return dado
-
-@route('/api/categoria',method='GET')
-def api_categoria_get():
-	dado = Categoria().find_all_json()
-	return dado
-# JSON end
 @route('/',method='GET')
 def main_page():
 	categoria = Categoria().findAll()
@@ -171,9 +162,8 @@ def usuario_login_post():
 	senha = request.POST.senha
 	dado = Usuario().find_by_email(email)
 	if check_password(senha,dado[2]):
-		_session = request.environ['beaker.session']
-		if set_session('usuario_id',dado[0]):
-			return redirect('/')
+		set_session('usuario_id',dado[0])
+		return redirect('/')
 	return redirect(request.path)
 
 @route('/login',method='GET')
@@ -356,8 +346,29 @@ def evento_delete_get(_id):
 	return redirect('/')
 #Evento end
 #Shopping cart begin
-@route('add-cart/<Evento_Id>/<Ingresso_Id>',method='GET')
-def add_cart_get():
-	return 'add ok!'
+@route('/carrinho/insert/<evento_id>/<ingresso_id>',method='POST')
+def add_cart_get(evento_id,ingresso_id):
+	has_session()
+	quantidade = request.POST.quantidade
+	usuario_id = get_session()
+	if Carrinho().add(ingresso_id,usuario_id,quantidade):
+		print 'dentro'
+		return redirect('/evento/%s' % evento_id)
+
+@route('/carrinho/delete/<_id>',method='GET')
+def carrinho_delete_get(_id):
+	has_session()
+	usuario_id = get_session()
+	if Carrinho().delete(_id,usuario_id):
+		return redirect('/carrinho')
+	return 'Error'
+	
+@route('/carrinho',method='GET')
+def carrinho_index_get():
+	has_session()
+	usuario_id = get_session()
+	dado = Carrinho().findAll(usuario_id)
+	print dado
+	return template('view/carrinho/index.tpl',dado=dado)
 #Shopping cart begin
 run(host='192.168.0.103',port='8080',debug=True,reloader=True,app=app)

@@ -35,7 +35,6 @@ class Ingresso():
 
 	def add(self,Tipo,Quantidade,Preco,Usuario_Id,Evento_Id):
 		try:
-			print Evento_Id
 			sql = "INSERT INTO %s (Tipo,Quantidade,Preco,Usuario_Id,Evento_Id) VALUES (?,?,?,?,?)" % self.table
 			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Usuario_Id,Evento_Id])
 			self.db.commit()
@@ -56,7 +55,7 @@ class Ingresso():
 
 	def find_by_evento_id(self,Evento_Id):
 		try:
-			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco FROM %s WHERE Evento_Id = ?" % self.table
+			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco FROM %s WHERE Evento_Id = ? AND ingresso.Quantidade > 0" % self.table
 			self.cursor.execute(sql,[Evento_Id])
 			return self.cursor.fetchall()
 		except Exception:
