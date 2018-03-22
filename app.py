@@ -76,8 +76,7 @@ def logout_get():
 def main_page():
 	categoria = Categoria().findAll()
 	usuario_id = get_session()
-	evento = Evento().listAll()
-	return template('view/index',evento=evento,categoria=categoria,usuario_id=usuario_id)
+	return template('view/index',categoria=categoria,usuario_id=usuario_id)
 
 @route('/static/<filename:path>')
 def static_routes(filename):
@@ -281,6 +280,13 @@ def page_evento_get(_id):
 	ingresso = Ingresso().find_by_evento_id(_id)
 	return template('view/evento/show',dado=dado,ingresso=ingresso)
 	
+
+@route('/list-event', method='GET')
+def evento_list_get():
+	evento = Evento().listAll()
+	return template('view/evento/catalog',evento=evento)
+
+
 @route('/evento', method='GET')
 @route('/evento/index', method='GET')
 def evento_index_get():
@@ -351,9 +357,10 @@ def add_cart_get(evento_id,ingresso_id):
 	has_session()
 	quantidade = request.POST.quantidade
 	usuario_id = get_session()
-	if Carrinho().add(ingresso_id,usuario_id,quantidade):
-		print 'dentro'
-		return redirect('/evento/%s' % evento_id)
+	if quantidade > 0:
+		if Carrinho().add(ingresso_id,usuario_id,quantidade):
+			print 'Add \n OK'
+	return redirect('/evento/%s' % evento_id)
 
 @route('/carrinho/delete/<_id>',method='GET')
 def carrinho_delete_get(_id):

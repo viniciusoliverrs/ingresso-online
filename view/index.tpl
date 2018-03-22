@@ -6,9 +6,6 @@
   <!-- /.col-lg-2 -->
   <div class="col-lg-10">
     %include('./view/slide.tpl')
-    <div class="row" style="margin-top: 5px;">
-    %include('./view/evento/catalog.tpl')
-    </div>
     <!-- .row -->
   </div>
   <!-- /.col-lg-9 -->
