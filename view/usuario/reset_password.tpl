@@ -33,7 +33,7 @@
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Repita a nova Senha</label>
+                        <label>Confirmar a senha</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <input type="password" name="nova_senha2" class="form-control" id="password" placeholder="*********" required>
                         </div>

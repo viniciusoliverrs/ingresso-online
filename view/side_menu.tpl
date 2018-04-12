@@ -12,9 +12,3 @@
    <a class="list-group-item" href="/login">Entrar</a>
 </div>
 %end
-<h1 class="my-4">Search</h1>
-<select class="form-control btn-secondary" name="categoria">
-   %for item in categoria:
-   <option value="{{item[0]}}">{{item[1]}}</option>
-   %end
-</select>

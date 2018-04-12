@@ -6,7 +6,7 @@ c.execute('PRAGMA foreign_keys = ON');
 
 c.executescript("""
 
-	CREATE TABLE Usuario ( 
+CREATE TABLE Usuario ( 
 	Id INTEGER PRIMARY KEY, 
 	Email TEXT, 
 	Senha TEXT);
@@ -54,7 +54,7 @@ CREATE TABLE Carrinho (
 	Usuario_Id INTEGER,
 	Quantidade INTEGER,
 	Status INTEGER,
-	DataEmitido TEXT);
+	DataEmitida TEXT);
 
 CREATE TABLE Cidade (
 	Id INTEGER PRIMARY KEY, 

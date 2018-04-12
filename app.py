@@ -1,4 +1,3 @@
-# encoding:utf8
 #MODULOS
 from bottle import *
 from functools import wraps
@@ -74,9 +73,8 @@ def logout_get():
 
 @route('/',method='GET')
 def main_page():
-	categoria = Categoria().findAll()
 	usuario_id = get_session()
-	return template('view/index',categoria=categoria,usuario_id=usuario_id)
+	return template('view/index',usuario_id=usuario_id)
 
 @route('/static/<filename:path>')
 def static_routes(filename):
@@ -284,7 +282,8 @@ def page_evento_get(_id):
 @route('/list-event', method='GET')
 def evento_list_get():
 	evento = Evento().listAll()
-	return template('view/evento/catalog',evento=evento)
+	categoria = Categoria().findAll()
+	return template('view/evento/catalog',categoria=categoria,evento=evento)
 
 
 @route('/evento', method='GET')
@@ -329,9 +328,7 @@ def evento_edit_post(_id):
 	cidade_id = request.POST.cidade_id
 	bairro = request.POST.bairro
 	telefone = request.POST.telefone
-	print 'after if'
 	if Evento().update(_id,usuario_id,categoria_id,cidade_id,titulo,descricao,endereco,numero,bairro,telefone):
-		print 'before if'
 		return redirect('/evento')
 	print 'Error'
 @route('/evento/edit/<_id>',method='GET')
@@ -357,9 +354,10 @@ def add_cart_get(evento_id,ingresso_id):
 	has_session()
 	quantidade = request.POST.quantidade
 	usuario_id = get_session()
-	if quantidade > 0:
-		if Carrinho().add(ingresso_id,usuario_id,quantidade):
-			print 'Add \n OK'
+	if quantidade <= 0:
+		quantidade = 1
+	if Carrinho().add(ingresso_id,usuario_id,quantidade):
+		pass	
 	return redirect('/evento/%s' % evento_id)
 
 @route('/carrinho/delete/<_id>',method='GET')
@@ -368,14 +366,13 @@ def carrinho_delete_get(_id):
 	usuario_id = get_session()
 	if Carrinho().delete(_id,usuario_id):
 		return redirect('/carrinho')
-	return 'Error'
+	return redirect('/')
 	
 @route('/carrinho',method='GET')
 def carrinho_index_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Carrinho().findAll(usuario_id)
-	print dado
 	return template('view/carrinho/index.tpl',dado=dado)
 #Shopping cart begin
-run(host='192.168.0.103',port='8080',debug=True,reloader=True,app=app)
+run(host='127.0.0.1',port='8080',debug=True,reloader=True,app=app)

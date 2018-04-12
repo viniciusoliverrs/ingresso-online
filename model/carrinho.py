@@ -9,7 +9,7 @@ class Carrinho():
 
 	def add(self,Ingresso_Id,Usuario_Id,Quantidade):
 		try:
-			sql = "INSERT INTO %s (Ingresso_Id,Usuario_Id,Quantidade,Status,DataEmitido) VALUES (?,?,?,?,?)" % self.table
+			sql = "INSERT INTO %s (Ingresso_Id,Usuario_Id,Quantidade,Status,DataEmitida) VALUES (?,?,?,?,?)" % self.table
 			self.cursor.execute(sql,[Ingresso_Id,Usuario_Id,Quantidade,0,''])
 			self.db.commit()
 			self.db.close()

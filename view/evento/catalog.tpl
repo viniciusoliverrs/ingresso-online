@@ -1,7 +1,17 @@
 % rebase('./view/base.tpl',title='Catalog')
-%descricao = ''
+%description = ''
 %sizeMax = 30
-<div class="row" style="margin-top: 5px;">
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="my-4">Search</h1>
+		<select class="form-control btn-secondary" name="categoria">
+		   %for item in categoria:
+		   <option value="{{item[0]}}">{{item[1]}}</option>
+		   %end
+		</select>
+	</div>
+</div>
+<div class="row" style="margin: 25px;">
 		%if len(evento) != 0:
 			%for item in evento:
 				<div class="col-lg-3 col-md-5 mb-3">
@@ -11,11 +21,11 @@
 							<h4 class="card-title">
 								<a href="/evento/{{item[0]}}">{{item[1]}}</a>
 							</h4>
-							%descricao = item[2]
-							%if len(descricao) > sizeMax:
-							%descricao = descricao[0:sizeMax]
+							%description = item[2]
+							%if len(description) > sizeMax:
+							%description = description[0:sizeMax]
 							%end
-							<p class="card-text" title="{{item[2]}}">{{descricao}}</p>
+							<p class="card-text" title="{{item[2]}}">{{description}}</p>
 						</div>
 					</div>
 				</div>

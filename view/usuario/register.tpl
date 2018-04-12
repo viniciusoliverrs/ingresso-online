@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label>Nome:</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" name="nome" class="form-control" required>
+                            <input type="text" name="nome" class="form-control not-null" required autofocus>
                         </div>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <div class="form-group has-danger">
                         <label>E-Mail</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required autofocus>
+                            <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required />
                         </div>
                     </div>
                 </div>

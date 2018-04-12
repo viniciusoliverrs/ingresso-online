@@ -9,13 +9,14 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <div class="form-group has-danger">
+                    <div class="form-group">
                         <label>Tipo</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <input type="text" name="tipo" class="form-control" required autofocus/>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4"></div>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>
@@ -27,6 +28,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4"></div>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>
@@ -35,11 +37,12 @@
                         <label>Preço</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-prepend"><span class="input-group-text">R$:</span></div>
-                                <input type="text" name="preco" class="form-control text-right" />
+                                <input type="text" name="preco" class="form-control text-right mask-money" />
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4"></div>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>
@@ -61,6 +64,7 @@
                         %end
                     </div>
                 </div>
+                <div class="col-md-4"></div>
             </div>
             <div class="row" style="padding-top: 1rem">
             	<div class="col-md-4"></div>
