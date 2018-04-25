@@ -42,6 +42,12 @@
 						</tr>
 					</tbody>
 				</table>
+				<div class="input-group">
+					<form>
+						<button type="button" class="btn-primary btn-lg">Finalizar</button>
+					</form>
+	
+				</div>
 			</div>
 			<div class="col-md-3"></div>
 			%else:

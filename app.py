@@ -1,4 +1,4 @@
-#MODULOS
+
 from bottle import *
 from functools import wraps
 import logging
@@ -6,7 +6,7 @@ from datetime import datetime
 import os
 import bcrypt
 from beaker.middleware import SessionMiddleware
-# OBJETOS
+
 from model.usuario import Usuario
 from model.conta import Conta
 from model.evento import Evento
@@ -14,7 +14,6 @@ from model.carrinho import Carrinho
 from model.ingresso import Ingresso
 from model.categoria import Categoria
 from model.ibge import IBGE
-
 
 logger = logging.getLogger('IngressoOnline')
 logger.setLevel(logging.INFO)
@@ -104,8 +103,12 @@ def usuario_register_post():
 
 	if senha != senha2:
 		return redirect(request.path)
+
 	senha = set_passwh(senha)
-		
+	
+	if Usuario().has_email(email)[0] > 0:
+		return redirect(request.path)
+
 	if Usuario().add(email,senha):
 		usuario_id = Usuario().find_by_email(email)[0]
 		if Conta().add(usuario_id,nome,cpf,telefone,data_criacao):
@@ -126,6 +129,10 @@ def usuario_edit_post():
 	telefone = request.POST.telefone
 	usuario_id  = get_session()
 	data_alteracao = str(datetime.now())[0:19]
+	
+	if Usuario().has_email(email)[0] > 0:
+		return redirect(request.path)
+
 	if Usuario().update(email,usuario_id):
 		if Conta().update(nome,cpf,telefone,data_alteracao,usuario_id):
 			return redirect("/usuario/profile")
@@ -142,8 +149,18 @@ def usuario_edit_get():
 def usuario_delete_post():
 	has_session()
 	usuario_id = get_session()
+	if Conta().delete_by_usuario(usuario_id):
+		print 'Conta deletada!'
 	if Usuario().delete(usuario_id):
-		del_session()	
+		print 'Usuario deletado!'
+	if Evento().delete_by_usuario(usuario_id):
+		print 'Eventos deletados!'
+	if Ingresso().delete_by_usuario(usuario_id):
+		print 'Ingressos deletados!'
+	if Carrinho().delete_by_usuario(usuario_id):
+		print 'Carrinho deletado!'
+
+	del_session()			
 	return redirect('/')
 
 @route('/usuario/delete',method='GET')
@@ -227,7 +244,6 @@ def ingresso_edit_post(_id):
 	quantidade = request.POST.quantidade
 	preco = request.POST.preco
 	usuario_id = get_session()
-
 	if Ingresso().update(tipo,quantidade,preco,usuario_id,_id):
 		return redirect('/ingresso')
 	return redirect('/ingresso/edit/'+_id)
@@ -237,7 +253,6 @@ def ingresso_edit_get(_id):
 	has_session()
 	usuario_id = get_session()
 	dado = Ingresso().find(usuario_id,_id)
-	print dado
 	return template('view/ingresso/edit',dado=dado)
 
 @route('/ingresso/delete/<_id>',method='GET')
@@ -354,11 +369,8 @@ def add_cart_get(evento_id,ingresso_id):
 	has_session()
 	quantidade = request.POST.quantidade
 	usuario_id = get_session()
-	if quantidade <= 0:
-		quantidade = 1
 	if Carrinho().add(ingresso_id,usuario_id,quantidade):
-		pass	
-	return redirect('/evento/%s' % evento_id)
+		return redirect('/evento/%s' % evento_id)
 
 @route('/carrinho/delete/<_id>',method='GET')
 def carrinho_delete_get(_id):

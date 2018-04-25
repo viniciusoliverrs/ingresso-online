@@ -39,3 +39,13 @@ class Carrinho():
 
 	def find():
 		pass
+
+	def delete_by_usuario(self,Usuario_Id):
+		try:
+			sql = "DELETE FROM %s WHERE Usuario_Id = ?" % self.table
+			self.cursor.execute(sql,[Usuario_Id])
+			self.db.commit()
+			self.db.close()
+			return True
+		except Exception:
+			return False

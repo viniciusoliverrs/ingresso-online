@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label>Nome:</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" name="nome" class="form-control not-null" required autofocus>
+                            <input type="text" name="nome" class="form-control" required autofocus>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label>Cpf</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <input type="text" name="cpf" class="form-control" required>
+                            <input type="text" name="cpf" class="form-control" placeholder="000.00.000-00" required>
                         </div>
                     </div>
                 </div>

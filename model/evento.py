@@ -22,8 +22,7 @@ class Evento():
 			sql = "SELECT evento.Id,evento.Titulo,evento.Descricao,categoria.Id,categoria.Nome,evento.Endereco,evento.Numero,evento.Bairro,evento.Telefone,cidade.id,cidade.Nome,estado.Sigla FROM evento JOIN categoria ON categoria.Id = evento.Categoria_Id JOIN cidade ON cidade.Id = evento.Cidade_Id JOIN estado ON estado.Id = cidade.Estado_Id WHERE evento.Id = ? AND evento.Usuario_Id = ?".format(evento=self.table,cidade=self.Ctable,estado=self.Etable,categoria=self.CTtable)
 			self.cursor.execute(sql,[Id,Usuario_Id])
 			return self.cursor.fetchone()
-		except Exception as e:
-			print e
+		except Exception:
 			self.db.close()
 
 	def update(self,Id,Usuario_Id,Categoria_Id,Cidade_Id,Titulo,Descricao,Endereco,Numero,Bairro,Telefone):
@@ -68,6 +67,15 @@ class Evento():
 			sql = "SELECT evento.Id,evento.Titulo,evento.Descricao,categoria.Nome,evento.Endereco,evento.Numero,evento.Bairro,evento.Telefone,cidade.Nome,estado.Nome FROM evento JOIN categoria ON categoria.Id = evento.Categoria_Id JOIN cidade ON cidade.Id = evento.Cidade_Id JOIN estado ON estado.Id = cidade.Estado_Id WHERE evento.Id = ?".format(evento=self.table,cidade=self.Ctable,estado=self.Etable,categoria=self.CTtable)
 			self.cursor.execute(sql,[Id])
 			return self.cursor.fetchone()
-		except Exception as e:
-			print e
+		except Exception:
 			self.db.close()
+
+	def delete_by_usuario(self,Usuario_Id):
+		try:
+			sql = "DELETE FROM %s WHERE Usuario_Id = ?" % self.table
+			self.cursor.execute(sql,[Usuario_Id])
+			self.db.commit()
+			self.db.close()
+			return True
+		except Exception:
+			return False

@@ -32,8 +32,7 @@ class Usuario():
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception as e:
-			print e
+		except Exception:
 			return False
 			
 
@@ -44,8 +43,7 @@ class Usuario():
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception as e:
-			print e
+		except Exception:
 			return False
 			
 
@@ -66,3 +64,11 @@ class Usuario():
 			return True
 		except Exception:
 			return False
+
+	def has_email(self,email):
+		try:
+			sql = "SELECT COUNT(Id) FROM %s WHERE Email = ?" % self.table
+			self.cursor.execute(sql,[email])
+			return self.cursor.fetchone()
+		except Exception:
+			self.db.close()

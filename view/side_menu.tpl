@@ -2,8 +2,8 @@
 <div class="list-group">
    <span class="list-group-item list-group-item-action active">Logado</span>
    <a class="list-group-item" href="/usuario/profile">Perfil</a>
-   <a class="list-group-item" href="/ingresso">Meus ingressos</a>
-   <a class="list-group-item" href="/evento">Meus eventos</a>
+   <a class="list-group-item" href="/ingresso">Meu ingresso</a>
+   <a class="list-group-item" href="/evento">Meu evento</a>
    <a class="list-group-item" href="/carrinho">Meu carrinho</a>
    <a class="list-group-item" href="/logout">Sair</a>
 </div>
