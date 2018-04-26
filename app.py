@@ -240,11 +240,13 @@ def ingresso_insert_get():
 @route('/ingresso/edit/<_id>',method='POST')
 def ingresso_edit_post(_id):
 	has_session()
+	evento_id = request.POST.evento_id
+	print evento_id
 	tipo = request.POST.tipo
 	quantidade = request.POST.quantidade
 	preco = request.POST.preco
 	usuario_id = get_session()
-	if Ingresso().update(tipo,quantidade,preco,usuario_id,_id):
+	if Ingresso().update(tipo,quantidade,preco,evento_id,usuario_id,_id):
 		return redirect('/ingresso')
 	return redirect('/ingresso/edit/'+_id)
 
@@ -252,8 +254,9 @@ def ingresso_edit_post(_id):
 def ingresso_edit_get(_id):
 	has_session()
 	usuario_id = get_session()
+	evento = Evento().findAll(usuario_id)
 	dado = Ingresso().find(usuario_id,_id)
-	return template('view/ingresso/edit',dado=dado)
+	return template('view/ingresso/edit',evento=evento,dado=dado)
 
 @route('/ingresso/delete/<_id>',method='GET')
 def ingresso_delete_get(_id):

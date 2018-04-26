@@ -17,16 +17,16 @@ class Ingresso():
 			
 	def find(self,Usuario_Id,Id):
 		try:
-			sql = "SELECT * FROM %s WHERE Usuario_Id = ? AND Id = ?" % self.table
+			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco,evento.Id,evento.Titulo FROM ingresso JOIN evento ON evento.Id = ingresso.Evento_Id WHERE ingresso.Usuario_Id = ? AND ingresso.Id = ?".format(ingresso=self.table,evento=self.Etable)
 			self.cursor.execute(sql,[Usuario_Id,Id])
 			return self.cursor.fetchone()
 		except Exception:
 			self.db.close()
 
-	def update(self,Tipo,Quantidade,Preco,Usuario_Id,Id):
+	def update(self,Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Id):
 		try:
-			sql = "UPDATE %s SET Tipo = ? , Quantidade = ?, Preco = ? WHERE Usuario_Id = ? AND Id = ?" % self.table
-			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Usuario_Id,Id])
+			sql = "UPDATE %s SET Tipo = ? , Quantidade = ?, Preco = ?, Evento_Id = ? WHERE Usuario_Id = ? AND Id = ?" % self.table
+			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Id])
 			self.db.commit()
 			self.db.close()
 			return True
