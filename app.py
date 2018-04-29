@@ -153,10 +153,10 @@ def usuario_delete_post():
 		print 'Conta deletada!'
 	if Usuario().delete(usuario_id):
 		print 'Usuario deletado!'
-	if Evento().delete_by_usuario(usuario_id):
-		print 'Eventos deletados!'
-	if Ingresso().delete_by_usuario(usuario_id):
-		print 'Ingressos deletados!'
+	if Evento().update_status_by_usuario(0,usuario_id):
+		print 'Eventos inativos!'
+	if Ingresso().update_status_by_usuario(0,usuario_id):
+		print 'Ingressos inativos!'
 	if Carrinho().delete_by_usuario(usuario_id):
 		print 'Carrinho deletado!'
 
@@ -174,6 +174,9 @@ def usuario_delete_get():
 def usuario_login_post():
 	email = request.POST.email
 	senha = request.POST.senha
+
+	if Usuario().has_email(email)[0] <= 0:
+		return redirect(request.path)
 	dado = Usuario().find_by_email(email)
 	if check_password(senha,dado[2]):
 		set_session('usuario_id',dado[0])
@@ -216,7 +219,7 @@ def reset_password_get():
 def ingresso_index_get():
 	has_session()
 	usuario_id = get_session()
-	dado = Ingresso().findAll(usuario_id)
+	dado = Ingresso().findAll(usuario_id,1)
 	return template('view/ingresso/index',dado=dado)
 @route('/ingresso/insert',method='POST')
 def ingresso_insert_post():
@@ -228,13 +231,13 @@ def ingresso_insert_post():
 	usuario_id = get_session()
 	if Ingresso().add(tipo,quantidade,preco,usuario_id,evento_id):
 		return redirect('/ingresso')
-	return redirect('/ingresso/insert')
+	return redirect(request.path)
 
 @route('/ingresso/insert',method='GET')
 def ingresso_insert_get():
 	has_session()
 	usuario_id = get_session()
-	evento = Evento().findAll(usuario_id)
+	evento = Evento().findAll(usuario_id,1)
 	return template('view/ingresso/insert',evento=evento)
 
 @route('/ingresso/edit/<_id>',method='POST')
@@ -254,15 +257,15 @@ def ingresso_edit_post(_id):
 def ingresso_edit_get(_id):
 	has_session()
 	usuario_id = get_session()
-	evento = Evento().findAll(usuario_id)
-	dado = Ingresso().find(usuario_id,_id)
+	evento = Evento().findAll(usuario_id,1)
+	dado = Ingresso().find(usuario_id,_id,1)
 	return template('view/ingresso/edit',evento=evento,dado=dado)
 
 @route('/ingresso/delete/<_id>',method='GET')
 def ingresso_delete_get(_id):
 	has_session()
 	usuario_id = get_session()
-	if Ingresso().delete(usuario_id,_id):
+	if Ingresso().update_status(0,usuario_id,_id):
 		return redirect('/ingresso')
 	return redirect('/')
 #Ingresso end
@@ -309,7 +312,7 @@ def evento_list_get():
 def evento_index_get():
 	has_session()
 	usuario_id = get_session()
-	dado = Evento().findAll(usuario_id)
+	dado = Evento().findAll(usuario_id,1) # Mostrar somente eventos ativos.
 	return template('view/evento/index',dado=dado)
 
 @route('/evento/insert', method='POST')
@@ -326,7 +329,8 @@ def evento_insert_post():
 	telefone = request.POST.telefone
 	if Evento().add(usuario_id,categoria_id,cidade_id,titulo,descricao,endereco,numero,bairro,telefone):
 		return redirect('/evento')
-	return "Ocorreu um erro<a href='%s'>Go back</a>" % request.path
+
+	return redirect(request.path)
 
 @route('/evento/insert', method='GET')
 def evento_insert_get():
@@ -362,8 +366,9 @@ def evento_edit_get(_id):
 def evento_delete_get(_id):
 	has_session()
 	usuario_id = get_session()
-	if Evento().delete(usuario_id,_id):
-		return redirect('/evento')
+	if Evento().update_status(0,usuario_id,_id):
+		if Ingresso().update_status_by_evento(0,usuario_id,_id):
+			return redirect('/evento')
 	return redirect('/')
 #Evento end
 #Shopping cart begin
@@ -379,7 +384,7 @@ def add_cart_get(evento_id,ingresso_id):
 def carrinho_delete_get(_id):
 	has_session()
 	usuario_id = get_session()
-	if Carrinho().delete(_id,usuario_id):
+	if Carrinho().delete(_id,Usuario_Id):
 		return redirect('/carrinho')
 	return redirect('/')
 	
@@ -387,7 +392,7 @@ def carrinho_delete_get(_id):
 def carrinho_index_get():
 	has_session()
 	usuario_id = get_session()
-	dado = Carrinho().findAll(usuario_id)
+	dado = Carrinho().findAll(usuario_id,1)
 	return template('view/carrinho/index.tpl',dado=dado)
 #Shopping cart begin
 run(host='127.0.0.1',port='8080',debug=True,reloader=True,app=app)

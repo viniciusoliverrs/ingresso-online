@@ -32,6 +32,7 @@ CREATE TABLE Evento (
 	Numero INTEGER,
 	Bairro TEXT,
 	Telefone TEXT,
+	Status INTEGER,
 	FOREIGN KEY(Usuario_Id) REFERENCES Usuario(Id));
 
 CREATE TABLE Categoria (
@@ -45,6 +46,7 @@ CREATE TABLE Ingresso (
 	Tipo TEXT,
 	Quantidade INTEGER,
 	Preco TEXT,
+	Status INTEGER,
 	FOREIGN KEY(Evento_Id) REFERENCES Evento(Id)
 	FOREIGN KEY(Usuario_Id) REFERENCES Usuario(Id));
 

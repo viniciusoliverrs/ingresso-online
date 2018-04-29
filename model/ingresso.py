@@ -7,26 +7,26 @@ class Ingresso():
 		self.db = Database().conn()
 		self.cursor = self.db.cursor()
 
-	def findAll(self,Usuario_Id):		
+	def findAll(self,Usuario_Id,Status):		
 		try:
-			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco,evento.Titulo FROM ingresso JOIN evento ON evento.Id = ingresso.Evento_Id WHERE ingresso.Usuario_Id = ?".format(ingresso=self.table,evento=self.Etable)
-			self.cursor.execute(sql,[Usuario_Id])
+			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco,evento.Titulo FROM ingresso JOIN evento ON evento.Id = ingresso.Evento_Id WHERE ingresso.Usuario_Id = ? AND ingresso.Status = ?".format(ingresso=self.table,evento=self.Etable)
+			self.cursor.execute(sql,[Usuario_Id,Status])
 			return self.cursor.fetchall()
 		except Exception:
 			self.db.close()
 			
-	def find(self,Usuario_Id,Id):
+	def find(self,Usuario_Id,Ingresso_Id):
 		try:
 			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco,evento.Id,evento.Titulo FROM ingresso JOIN evento ON evento.Id = ingresso.Evento_Id WHERE ingresso.Usuario_Id = ? AND ingresso.Id = ?".format(ingresso=self.table,evento=self.Etable)
-			self.cursor.execute(sql,[Usuario_Id,Id])
+			self.cursor.execute(sql,[Usuario_Id,Ingresso_Id])
 			return self.cursor.fetchone()
 		except Exception:
 			self.db.close()
 
-	def update(self,Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Id):
+	def update(self,Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Ingresso_Id):
 		try:
 			sql = "UPDATE %s SET Tipo = ? , Quantidade = ?, Preco = ?, Evento_Id = ? WHERE Usuario_Id = ? AND Id = ?" % self.table
-			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Id])
+			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Ingresso_Id])
 			self.db.commit()
 			self.db.close()
 			return True
@@ -35,28 +35,29 @@ class Ingresso():
 
 	def add(self,Tipo,Quantidade,Preco,Usuario_Id,Evento_Id):
 		try:
-			sql = "INSERT INTO %s (Tipo,Quantidade,Preco,Usuario_Id,Evento_Id) VALUES (?,?,?,?,?)" % self.table
-			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Usuario_Id,Evento_Id])
+			sql = "INSERT INTO %s (Tipo,Quantidade,Preco,Usuario_Id,Evento_Id,Status) VALUES (?,?,?,?,?,?)" % self.table
+			self.cursor.execute(sql,[Tipo,Quantidade,Preco,Usuario_Id,Evento_Id,1])
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception:
+		except Exception as e:
+			print e
 			return False
 
-	def delete(self,Usuario_Id,Id):
+	def delete(self,Usuario_Id,Ingresso_Id):
 		try:
 			sql = "DELETE FROM %s WHERE Usuario_Id = ? AND Id = ?" % self.table
-			self.cursor.execute(sql,[Usuario_Id,Id])
+			self.cursor.execute(sql,[Usuario_Id,Ingresso_Id])
 			self.db.commit()
 			self.db.close()
 			return True
 		except Exception:
 			return False
 
-	def find_by_evento_id(self,Evento_Id):
+	def find_by_evento_id(self,Evento_Id,Status):
 		try:
-			sql = "SELECT ingresso.Id,ingresso.Tipo,ingresso.Quantidade,ingresso.Preco FROM %s WHERE Evento_Id = ? AND ingresso.Quantidade > 0" % self.table
-			self.cursor.execute(sql,[Evento_Id])
+			sql = "SELECT Id,Tipo,Quantidade,Preco FROM %s WHERE Evento_Id = ? AND Quantidade > 0 AND Status = ?" % self.table
+			self.cursor.execute(sql,[Evento_Id,Status])
 			return self.cursor.fetchall()
 		except Exception:
 			self.db.close()
@@ -70,3 +71,33 @@ class Ingresso():
 			return True
 		except Exception:
 			return False
+
+	def update_status(self,Status,Usuario_Id,Ingresso_Id):
+			try:
+				sql = "UPDATE %s SET Status = ? WHERE Usuario_Id = ? AND Id = ?" % self.table
+				self.cursor.execute(sql,[Status,Usuario_Id,Ingresso_Id])
+				self.db.commit()
+				self.db.close()
+				return True
+			except Exception:
+				return False
+
+	def update_status_by_evento(self,Status,Usuario_Id,Evento_Id):
+			try:
+				sql = "UPDATE %s SET Status = ? WHERE Usuario_Id = ? AND Evento_Id = ?" % self.table
+				self.cursor.execute(sql,[Status,Usuario_Id,Evento_Id])
+				self.db.commit()
+				self.db.close()
+				return True
+			except Exception:
+				return False
+
+	def update_status_by_usuario(self,Status,Usuario_Id):
+			try:
+				sql = "UPDATE %s SET Status = ? WHERE Usuario_Id = ?" % self.table
+				self.cursor.execute(sql,[Status,Usuario_Id])
+				self.db.commit()
+				self.db.close()
+				return True
+			except Exception:
+				return False
