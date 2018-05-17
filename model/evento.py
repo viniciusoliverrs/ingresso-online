@@ -54,18 +54,26 @@ class Evento():
 		except Exception:
 			return False
 
-	def listAll(self):
+	def listAll(self,Status):
 		try:
-			sql = "SELECT Id, Titulo, Descricao FROM %s WHERE Status = 1" % self.table
-			self.cursor.execute(sql)
+			sql = "SELECT Id, Titulo, Descricao FROM %s WHERE Status = ?" % self.table
+			self.cursor.execute(sql,[Status])
 			return self.cursor.fetchall()
 		except Exception:
 			self.db.close()
 
-	def find_by_evento_id(self,Evento_Id):
+	def searchEvento(self,Categoria_Id,Cidade_Id):
 		try:
-			sql = "SELECT evento.Id,evento.Titulo,evento.Descricao,categoria.Nome,evento.Endereco,evento.Numero,evento.Bairro,evento.Telefone,cidade.Nome,estado.Nome FROM evento JOIN categoria ON categoria.Id = evento.Categoria_Id JOIN cidade ON cidade.Id = evento.Cidade_Id JOIN estado ON estado.Id = cidade.Estado_Id WHERE evento.Id = ?".format(evento=self.table,cidade=self.Ctable,estado=self.Etable,categoria=self.CTtable)
-			self.cursor.execute(sql,[Evento_Id])
+			sql = "SELECT Id, Titulo, Descricao FROM %s WHERE Status = 1 AND Categoria_Id = ? AND Cidade_Id = ?" % self.table
+			self.cursor.execute(sql,[Categoria_Id,Cidade_Id])
+			return self.cursor.fetchall()
+		except Exception:
+			self.db.close()
+
+	def find_by_evento_id(self,Evento_Id,Status):
+		try:
+			sql = "SELECT evento.Id,evento.Titulo,evento.Descricao,categoria.Nome,evento.Endereco,evento.Numero,evento.Bairro,evento.Telefone,cidade.Nome,estado.Nome FROM evento JOIN categoria ON categoria.Id = evento.Categoria_Id JOIN cidade ON cidade.Id = evento.Cidade_Id JOIN estado ON estado.Id = cidade.Estado_Id WHERE evento.Id = ? AND evento.Status = ?".format(evento=self.table,cidade=self.Ctable,estado=self.Etable,categoria=self.CTtable)
+			self.cursor.execute(sql,[Evento_Id,Status])
 			return self.cursor.fetchone()
 		except Exception:
 			self.db.close()

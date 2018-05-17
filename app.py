@@ -176,7 +176,7 @@ def usuario_login_post():
 	senha = request.POST.senha
 
 	if Usuario().has_email(email)[0] <= 0:
-		return redirect(request.path)
+		return redirect('/usuario/register')
 	dado = Usuario().find_by_email(email)
 	if check_password(senha,dado[2]):
 		set_session('usuario_id',dado[0])
@@ -295,17 +295,21 @@ def evento_upload_get():
 
 @route('/evento/<_id>', method='GET')
 def page_evento_get(_id):
-	dado = Evento().find_by_evento_id(_id)
-	ingresso = Ingresso().find_by_evento_id(_id)
+	dado = Evento().find_by_evento_id(_id,1)
+	ingresso = Ingresso().find_by_evento_id(_id,1)
 	return template('view/evento/show',dado=dado,ingresso=ingresso)
 	
-
-@route('/list-event', method='GET')
+@route('/list-event',method=['GET','POST'])
 def evento_list_get():
-	evento = Evento().listAll()
+	cidade = IBGE().findAll() 
 	categoria = Categoria().findAll()
-	return template('view/evento/catalog',categoria=categoria,evento=evento)
-
+	if request.method == 'GET':
+		evento = Evento().listAll(1)
+	elif request.method == 'POST':
+		categoria_id = request.POST.categoria_id
+		cidade_id = request.POST.cidade_id
+		evento = Evento().searchEvento(categoria_id,cidade_id)
+	return template('view/evento/catalog',categoria=categoria,evento=evento,cidade=cidade)
 
 @route('/evento', method='GET')
 @route('/evento/index', method='GET')
@@ -384,7 +388,7 @@ def add_cart_get(evento_id,ingresso_id):
 def carrinho_delete_get(_id):
 	has_session()
 	usuario_id = get_session()
-	if Carrinho().delete(_id,Usuario_Id):
+	if Carrinho().delete(_id,usuario_id):
 		return redirect('/carrinho')
 	return redirect('/')
 	
@@ -394,5 +398,14 @@ def carrinho_index_get():
 	usuario_id = get_session()
 	dado = Carrinho().findAll(usuario_id,1)
 	return template('view/carrinho/index.tpl',dado=dado)
+
+@route('/finished-purchase',method='POST')
+def finish_cart_post():
+	has_session()
+	usuario_id = get_session()
+	carrinho = Carrinho().findAll(usuario_id,1)	
+	print carrinho
+	dado = Carrinho().finish_cart()
+	return dado
 #Shopping cart begin
 run(host='127.0.0.1',port='8080',debug=True,reloader=True,app=app)

@@ -1,17 +1,10 @@
 % rebase('./view/base.tpl',title='Catalog')
 %description = ''
 %sizeMax = 30
-<div class="row">
-	<div class="col-lg-12">
-		<h1 class="my-4">Search</h1>
-		<select class="form-control btn-secondary" name="categoria">
-		   %for item in categoria:
-		   <option value="{{item[0]}}">{{item[1]}}</option>
-		   %end
-		</select>
-	</div>
+<div class="col-lg-12">
+	%include('./view/search.tpl')
 </div>
-<div class="row" style="margin: 25px;">
+<div class="row" style="padding: 20px;">
 		%if len(evento) != 0:
 			%for item in evento:
 				<div class="col-lg-3 col-md-5 mb-3">

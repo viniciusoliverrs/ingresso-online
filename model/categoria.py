@@ -11,8 +11,6 @@ class Categoria():
 			self.cursor.execute(sql)
 			return self.cursor.fetchall()
 		except Exception:
-			
-		finally:
 			self.db.close()	
 
 
@@ -22,6 +20,4 @@ class Categoria():
 			self.cursor.execute(sql)
 			return self.cursor.fetchone()
 		except Exception:
-
-		finally:
 			db.close()

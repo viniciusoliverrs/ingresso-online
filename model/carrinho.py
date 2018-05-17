@@ -67,3 +67,6 @@ class Carrinho():
 				return True
 			except Exception:
 				return False
+
+	def finish_cart(self):
+		pass
