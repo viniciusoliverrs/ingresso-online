@@ -1,7 +1,7 @@
 % rebase('view/base.tpl', title='Ver evento')
 <div class="row">
         <div class="col-md-12">
-               <img src="" style="width:100%;height:300px;" href="#" alt="Aqui vai ter uma imagem" />
+               <img class="mx-auto d-block" style="width:700px;height:300px;" src="/Eventos/{{dado[0]}}/banner.jpg" alt="Image not found" />
          	<hr/>
         </div>
     </div>

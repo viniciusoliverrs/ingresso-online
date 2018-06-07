@@ -79,6 +79,9 @@ def main_page():
 def static_routes(filename):
 	return static_file(filename, root='static')
 
+@route('/Eventos/<filename:path>')
+def static_routes(filename):
+	return static_file(filename, root='Eventos')
 @error(404)
 def error404(error):
 	return template('view/404')
@@ -244,7 +247,6 @@ def ingresso_insert_get():
 def ingresso_edit_post(_id):
 	has_session()
 	evento_id = request.POST.evento_id
-	print evento_id
 	tipo = request.POST.tipo
 	quantidade = request.POST.quantidade
 	preco = request.POST.preco
@@ -273,25 +275,27 @@ def ingresso_delete_get(_id):
 @route('/evento/upload', method='POST')
 def evento_upload_post():
 	has_session()
-	usuario_id = get_session()
+	evento_id = request.POST.evento_id
+	save_path = "Eventos/"+str(evento_id)
 	upload = request.files.get('upload')
 	name, ext = os.path.splitext(upload.filename)
-	file_path = save_path+"/"+upload.filename
+	file_path = save_path+"/banner" + str(ext) #Defini nome do arquivo.
+	if ext not in ('.jpg'):
+		return redirect(request.path)
 	
-	if ext not in ('.png', '.jpg', '.jpeg'):
-		return "File extension not allowed."
-	save_path = "EventoImage/"+usuario_id
 	if not os.path.exists(save_path):
 		os.makedirs(save_path)
 
 	
 	upload.save(file_path)
-	return "File successfully saved"
+	return redirect('/evento')
 
 @route('/evento/upload', method='GET')
 def evento_upload_get():
 	has_session()
-	return template('view/evento/upload')
+	usuario_id = get_session()
+	evento = Evento().findAll(usuario_id,1)
+	return template('view/evento/upload',evento=evento)
 
 @route('/evento/<_id>', method='GET')
 def page_evento_get(_id):
@@ -408,4 +412,4 @@ def finish_cart_post():
 	dado = Carrinho().finish_cart()
 	return dado
 #Shopping cart begin
-run(host='127.0.0.1',port='8080',debug=True,reloader=True,app=app)
+run(host='196.168.0.106',port='8000',debug=True,reloader=True,app=app)

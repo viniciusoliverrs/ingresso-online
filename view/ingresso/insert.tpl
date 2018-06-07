@@ -1,10 +1,32 @@
 % rebase('view/base.tpl', title='Register')
-<form class="form-horizontal" role="form" method="POST" action="/ingresso/insert">
+<form class="form-horizontal" method="POST" action="/ingresso/insert">
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="text-center">Criar ingresso:</h2>
                     <hr/>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Evento</label>
+                        %if len(evento) != 0:
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <select class="form-control" name="evento_id">
+                                    %for item in evento:
+                                        <option value="{{item[0]}}">{{item[1]}}</option>
+                                    %end
+                                </select>
+                        </div>
+                        %else:
+                            <div class="alert alert-warning" role="alert">
+                                Você não possui eventos cadastrados no sistema.
+                            </div>
+                        %end
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
             </div>
             <div class="row">
                 <div class="col-md-4"></div>
@@ -37,31 +59,9 @@
                         <label>Preço</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-prepend"><span class="input-group-text">R$:</span></div>
-                                <input type="text" name="preco" class="form-control text-right mask-money" />
+                                <input type="text" name="preco" class="form-control text-right" />
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Evento</label>
-                        %if len(evento) != 0:
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <select class="form-control" name="evento_id">
-                                    %for item in evento:
-                                        <option value="{{item[0]}}">{{item[1]}}</option>
-                                    %end
-                                </select>
-                        </div>
-                        %else:
-                            <div class="alert alert-warning" role="alert">
-                                Você não possui eventos cadastrados no sistema.
-                            </div>
-                        %end
                     </div>
                 </div>
                 <div class="col-md-4"></div>
