@@ -9,7 +9,7 @@
 			%for item in evento:
 				<div class="col-lg-3 col-md-5 mb-3">
 					<div class="card h-100">
-						<a href="#"><img class="card-img-top mx-auto d-block" style="width: 100px;height: 100px;" src="/Eventos/{{item[0]}}/banner.jpg" alt=""></a>
+						<a href="#"><img class="card-img-top mx-auto d-block" style="width: 210px;height: 125px;" src="/Eventos/{{item[0]}}/banner.jpg" alt=""></a>
 						<div class="card-body">
 							<h4 class="card-title">
 								<a href="/evento/{{item[0]}}">{{item[1]}}</a>
