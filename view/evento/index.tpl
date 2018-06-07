@@ -8,8 +8,8 @@
 	<div class="row">
 		<div class="col-md-3"></div>
 			<div class="col-md-6">
-				<a href="/evento/insert" ><img class="icones-image" title="Adicionar" src="/static/img/add.png"/></a>
-				<a href="/evento/upload" ><img class="icones-image" title="Upload imagem" src="/static/img/cloud-upload.png"/></a>
+				<a href="/evento/insert" class="btn btn-success">Adicionar</a>
+				<a href="/evento/upload" class="btn btn-primary">Upload imagem</a>
 		    </div>
 	    <div class="col-md-3"></div>
 	</div>
@@ -33,8 +33,8 @@
 							<td scope="col">{{cel}}</td>
 							%end
 							<td>
-								<a href="/evento/edit/{{item[0]}}"><img class="icones-image" title="Editar" src="/static/img/edit.png"/></a>
-								<a href="/evento/delete/{{item[0]}}"><img class="icones-image" title="Excluir" src="/static/img/remove.png"/></a>
+								<a href="/evento/edit/{{item[0]}}" class="btn btn-warning">Editar</a>
+								<a href="/evento/delete/{{item[0]}}" class="btn btn-danger">Excluir</a>
 							</td>
 						</tr>
 						%end

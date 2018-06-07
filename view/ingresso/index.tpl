@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-md-3"></div>
 			<div class="col-md-6">
-				<a href="/ingresso/insert" ><img class="icones-image" title="Adicionar" src="/static/img/add.png"/></a>
+				<a href="/ingresso/insert" class="btn btn-success">Adicionar</a>
 		    </div>
 	    <div class="col-md-3"></div>
 	</div>
@@ -36,8 +36,8 @@
 							<td scope="col">{{cel}}</td>
 							%end
 							<td>
-								<a href="/ingresso/edit/{{item[0]}}"><img class="icones-image" title="Editar" src="/static/img/edit.png"/></a>
-								<a href="/ingresso/delete/{{item[0]}}"><img class="icones-image" title="Excluir" src="/static/img/remove.png"/></a>
+								<a href="/ingresso/edit/{{item[0]}}" class="btn btn-warning">Editar</a>
+								<a href="/ingresso/delete/{{item[0]}}"class="btn btn-danger">Excluir</a>
 							</td>
 						</tr>
 						%end

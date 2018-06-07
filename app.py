@@ -412,4 +412,4 @@ def finish_cart_post():
 	dado = Carrinho().finish_cart()
 	return dado
 #Shopping cart begin
-run(host='196.168.0.106',port='8000',debug=True,reloader=True,app=app)
+run(host='localhost',port='8000',debug=True,reloader=True,app=app)

@@ -1,7 +1,7 @@
 % rebase('view/base.tpl', title='Ver evento')
 <div class="row">
         <div class="col-md-12">
-               <img class="mx-auto d-block" style="width:700px;height:300px;" src="/Eventos/{{dado[0]}}/banner.jpg" alt="Image not found" />
+               <img class="mx-auto d-block" style="width:500px;height:300px;" src="/Eventos/{{dado[0]}}/banner.jpg" alt="Image not found" />
          	<hr/>
         </div>
     </div>
@@ -47,21 +47,8 @@
     </div>
     <div class="row">
 		<div class="col-md-12">
-			%if len(ingresso) != 0:
-				<table class="table" id="listIngresso">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col">Tipo</th>
-							<th scope="col">Preço</th>
-							<th scope="col">Quantidade</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
-						%include('./view/carrinho/insert.tpl')
-					</tbody>
-				</table>
-
+			%if len(ingresso) != 0:	
+				%include('./view/carrinho/insert.tpl')
 			%else:
 				<div class="alert alert-info" role="alert">
 			  		Nenhum ingresso disponivel.

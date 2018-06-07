@@ -4,7 +4,7 @@
                 <div class="col-md-12">
                     <h2 class="text-center">Upload de imagem:</h2>
                     <h4  class="text-center">
-                        Tamanho da imagem ideal 700x300<br/>
+                        Tamanho da imagem ideal 500x300<br/>
                         Formato permitida somente <strong>[jpg]</strong></h4>
                     <hr/>
                 </div>
