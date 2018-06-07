@@ -1,6 +1,6 @@
 %for item in ingresso:
-	
-	<h3 class="text-center"><img class="icones-image" src="/static/img/shopping-cart.png" />Carrinho</h3>
+
+	<h3 viclass="text-center"><img class="icones-image" src="/static/img/shopping-cart.png" />Carrinho</h3>
 	<form action="/carrinho/insert/{{dado[0]}}/{{item[0]}}" method="POST">
 		<table class="table" id="listIngresso">
 			<thead class="thead-dark">
