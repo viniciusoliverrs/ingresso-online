@@ -54,9 +54,13 @@ CREATE TABLE Carrinho (
 	Id INTEGER PRIMARY KEY,
 	Ingresso_Id INTEGER,
 	Usuario_Id INTEGER,
-	Quantidade INTEGER,
-	Status INTEGER,
-	DataEmitida TEXT);
+	Quantidade INTEGER);
+
+CREATE TABLE Venda (
+	Id INTEGER PRIMARY KEY,
+	Ingresso_Id INTEGER,
+	Usuario_Id INTEGER,
+	Quantidade INTEGER);
 
 CREATE TABLE Cidade (
 	Id INTEGER PRIMARY KEY, 
@@ -72,15 +76,15 @@ CREATE TABLE Estado (
 
 c.executescript("""
 INSERT INTO 'Categoria' VALUES
-	(1,'Congresso, seminário'),
+	(1,'Congresso, Seminário'),
 	(2,'Gastronômico'),
-	(3,'Curso, workshop'),
-	(4,'Encontro, networking'),
+	(3,'Curso, Workshop'),
+	(4,'Encontro, Networking'),
 	(5,'Esportivo'),
-	(6,'Feira, exposição'),
-	(7,'Filme, cinema e teatro'),
+	(6,'Feira'),
+	(7,'Filme, Cinema e Teatro'),
 	(8,'E-sport'),
-	(9,'Show, música e festa'),
+	(9,'Show, Música e Festa'),
 	(10,'Religioso, espiritual');
 
 INSERT INTO 'Estado' VALUES

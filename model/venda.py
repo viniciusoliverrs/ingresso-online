@@ -1,9 +1,7 @@
 from database import Database
-class Carrinho():
+class Venda():
 	def __init__(self):
-		self.table = "Carrinho"
-		self.Etable = 'Evento'
-		self.Itable = 'Ingresso'
+		self.table = "Venda"
 		self.db = Database().conn()
 		self.cursor = self.db.cursor()
 

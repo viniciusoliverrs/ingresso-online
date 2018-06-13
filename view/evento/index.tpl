@@ -9,7 +9,6 @@
 		<div class="col-md-3"></div>
 			<div class="col-md-6">
 				<a href="/evento/insert" class="btn btn-success">Adicionar</a>
-				<a href="/evento/upload" class="btn btn-primary">Upload imagem</a>
 		    </div>
 	    <div class="col-md-3"></div>
 	</div>
@@ -21,7 +20,7 @@
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col">#</th>
+							<th scope="col" colspan="2" style="text-align:right;">#</th>
 							<th scope="col">Descrição</th>
 							<th></th>
 						</tr>
@@ -29,10 +28,14 @@
 					<tbody>
 						%for item in dado:
 						<tr>
+							<td scope="col">
+								<a href="/evento/{{item[0]}}"><img class="card-img-top mx-auto d-block" style="width: 100px;height: 50px;background-color:#C0C0C0;" src="/Eventos/{{item[0]}}/banner.jpg" alt=""></a>
+							</td>
 							%for cel in item:
 							<td scope="col">{{cel}}</td>
 							%end
 							<td>
+								<a href="/evento/upload/{{item[0]}}" class="btn btn-primary">Upload</a>
 								<a href="/evento/edit/{{item[0]}}" class="btn btn-warning">Editar</a>
 								<a href="/evento/delete/{{item[0]}}" class="btn btn-danger">Excluir</a>
 							</td>
@@ -44,7 +47,7 @@
 			<div class="col-md-3"></div>
 			%else:
 				<div class="alert alert-warning" role="alert">
-			  		Você não possui eventos cadastrados no sistema.
+			  		Você não possui eventos cadastrados.
 				</div>
 			%end
 		</div>

@@ -12,7 +12,6 @@
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
 			%if len(dado) != 0:
-			<div class="table-responsive">
 				<table class="table">
 					<thead class="thead-dark">
 						<tr>						
@@ -20,7 +19,7 @@
 							<th scope="col">Quantidade</th>
 							<th scope="col">Tipo</th>
 							<th scope="col">Subtotal</th>
-							<th scope="col" colspan="2"></th>
+							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -35,9 +34,6 @@
 							<td>
 								<a href="/carrinho/delete/{{item[0]}}"class="btn btn-danger">Excluir</a>
 							</td>
-							<td>
-								<button class="btn btn-success" href="#">Finalizar</button>
-							</td>
 						</tr>
 						%end
 						<tr>
@@ -45,15 +41,12 @@
 						</tr>
 					</tbody>
 				</table>
-				<!--
 				<div class="input-group">
 					<form>
 						<button type="button" class="btn-primary btn-lg">Finalizar</button>
 					</form>
 	
 				</div>
-				-->
-			</div>
 			<div class="col-md-3"></div>
 			%else:
 				<div class="alert alert-info" role="alert">
