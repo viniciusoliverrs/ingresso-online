@@ -289,9 +289,10 @@ def evento_upload_post(evento_id):
 	
 	if not os.path.exists(save_path):
 		os.makedirs(save_path)
+	else:
+		os.system("rm -f "+file_path)
 
-	upload.save(file_path)
-		
+	upload.save(file_path)	
 	return redirect('/evento')
 
 @route('/evento/upload/<evento_id>', method='GET')
