@@ -1,7 +1,8 @@
 # encoding: utf-8
 from bottle import *
-from functools import wraps
-import logging
+#from functools import wraps
+import base64
+#import logging
 from datetime import datetime
 import os
 import bcrypt
@@ -14,25 +15,26 @@ from model.carrinho import Carrinho
 from model.ingresso import Ingresso
 from model.categoria import Categoria
 from model.ibge import IBGE
+from model.servico import Servico
 
-logger = logging.getLogger('IngressoOnline')
-logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler('IngressoOnline.log')
-formatter = logging.Formatter('%(msg)s')
-file_handler.setLevel(logging.DEBUG)
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
+#logger = logging.getLogger('IngressoOnline')
+#logger.setLevel(logging.INFO)
+#file_handler = logging.FileHandler('IngressoOnline.log')
+#formatter = logging.Formatter('%(msg)s')
+#file_handler.setLevel(logging.DEBUG)
+#file_handler.setFormatter(formatter)
+#logger.addHandler(file_handler)
 
-def log_to_logger(fn):
-	@wraps(fn)
-	def _log_to_logger(*args, **kwargs):
-		request_time = datetime.now()
-		actual_response = fn(*args, **kwargs)
-		logger.info('%s %s %s %s %s' % (request.remote_addr,request_time,request.method,request.url,response.status))
-		return actual_response
-	return _log_to_logger
+#def log_to_logger(fn):
+#	@wraps(fn)
+#	def _log_to_logger(*args, **kwargs):
+#		request_time = datetime.now()
+#		actual_response = fn(*args, **kwargs)
+#		logger.info('%s %s %s %s %s' % (request.remote_addr,request_time,request.method,request.url,response.status))
+#		return actual_response
+#	return _log_to_logger
 
-install(log_to_logger)	
+#install(log_to_logger)	
 TEMPLATE_PATH.insert(0,"view")
 _session_opts = {'session.type':'memory','_session.cookie_expires':600,'_session.auto': True}
 #_session_opts = {'session.type': 'file','session.data_dir': '/openmining.data','session.lock_dir': '/openmining.lock','session.cookie_expires': 5000,'session.auto': True}
@@ -120,7 +122,12 @@ def usuario_register_post():
 		usuario_id = Usuario().find_by_email(email)[0]
 		if Conta().add(usuario_id,nome,cpf,telefone,data_criacao):
 			set_session('usuario_id',usuario_id)
-	return redirect("/")
+			return redirect("/")
+		else:
+			if Usuario().delete(usuario_id):
+				pass
+		return redirect("/")
+
 
 
 @route('/usuario/register',method='GET')
@@ -190,6 +197,45 @@ def usuario_login_post():
 		set_session('usuario_id',dado[0])
 		return redirect('/')
 	return redirect('/message_err/Senha errada!')
+
+@route('/usuario/forgot_password',method=['GET','POST'])
+def recovery_pw_get_post():
+	if request.method == 'GET':
+		return template('view/usuario/check_email.tpl')
+	elif request.method == 'POST':	
+		email = request.POST.email
+		if Usuario().has_email(email)[0] > 0:
+
+			usuario_id = Usuario().find_by_email(email)[0]
+
+			emailh = set_passwh(email)
+			if Usuario().update_orderRecPw(usuario_id,emailh):
+				pass
+			url = 'http://localhost:8080/usuario/reset_pw/%d/%s' % (usuario_id,emailh.encode('base64'))
+			texto = 'Copie e cole em seu navegador o link: '+url
+			Servico().sendEmail(email,'Esqueci minha senha',texto)
+			return redirect('/message_err/Enviamos um link para seu email para você redefinir sua senha, Verifique na caixa de entrada ou na de spam.')
+		return redirect('/message_err/Conta não existe!')
+
+@route('/usuario/reset_pw/<_id>/<_hash>',method=['GET','POST'])
+def reset_pw_get(_id,_hash): 
+	if request.method == 'GET':
+		emailh = Usuario().find(_id)[3]
+		if emailh == _hash.decode('base64'):
+			return template('view/usuario/manage_password.tpl',_id=_id,_hash=_hash)
+		return redirect('/login')
+	elif request.method == 'POST':
+		nova_senha = request.POST.nova_senha
+		nova_senha2 = request.POST.nova_senha2
+		if nova_senha != nova_senha2:
+			return redirect('/message_err/Nova senha diferente da senha de confirmação!')
+		
+		emailh = Usuario().find(_id)[3]
+		if emailh == _hash.decode('base64'):
+			nova_senha = set_passwh(nova_senha)
+			if Usuario().reset_password(nova_senha,_id) and Usuario().update_orderRecPw(_id,''):
+				return redirect('/message_err/Senha alterada com sucesso!')
+
 
 @route('/login',method='GET')
 def usuario_login_get():
@@ -415,4 +461,4 @@ def carrinho_index_get():
 	dado = Carrinho().findAll(usuario_id)
 	return template('view/carrinho/index.tpl',dado=dado)
 #Shopping cart begin
-run(host='localhost',port='8000',debug=True,reloader=True,app=app)
+run(host='localhost',port='8080',debug=True,reloader=True,app=app)

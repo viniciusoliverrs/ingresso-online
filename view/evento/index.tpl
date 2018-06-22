@@ -37,7 +37,7 @@
 							<td>
 								<a href="/evento/upload/{{item[0]}}" class="btn btn-primary">Upload</a>
 								<a href="/evento/edit/{{item[0]}}" class="btn btn-warning">Editar</a>
-								<a href="/evento/delete/{{item[0]}}" class="btn btn-danger">Excluir</a>
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-sm">Excluir</button>
 							</td>
 						</tr>
 						%end
@@ -52,3 +52,16 @@
 			%end
 		</div>
 	</div>
+
+<!-- Small modal -->
+
+
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+    	<p>
+    		Deseja excluir esse evento?
+    	</p>
+      <a href="/evento/delete/{{item[0]}}" class="btn btn-danger">Sim</a>
+   </div>
+</div>

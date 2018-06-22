@@ -38,8 +38,8 @@ class Usuario():
 
 	def add(self,email,senha):
 		try:
-			sql = "INSERT INTO %s (Email,Senha) VALUES (?,?)" % self.table
-			self.cursor.execute(sql,(email,senha))
+			sql = "INSERT INTO %s (Email,Senha,Recovery) VALUES (?,?,?)" % self.table
+			self.cursor.execute(sql,(email,senha,''))
 			self.db.commit()
 			self.db.close()
 			return True
@@ -72,3 +72,13 @@ class Usuario():
 			return self.cursor.fetchone()
 		except Exception:
 			self.db.close()
+
+	def update_orderRecPw(self,Usuario_id,Recovery):
+		try:
+			sql = "UPDATE  %s SET Recovery = ? WHERE Id = ?" % self.table
+			self.cursor.execute(sql,[Recovery,Usuario_id])
+			self.db.commit()
+			self.db.close()
+			return True
+		except Exception:
+			return False

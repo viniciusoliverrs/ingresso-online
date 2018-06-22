@@ -6,10 +6,11 @@ c.execute('PRAGMA foreign_keys = ON');
 
 c.executescript("""
 
-CREATE TABLE Usuario ( 
+CREATE TABLE Usuario (
 	Id INTEGER PRIMARY KEY, 
 	Email TEXT, 
-	Senha TEXT);
+	Senha TEXT,
+	Recovery TEXT);
 
 CREATE TABLE Conta (
 	Id INTEGER PRIMARY KEY,
