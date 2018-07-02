@@ -3,7 +3,7 @@
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">Tipo</th>
-					<th scope="col">Preço</th>
+					<th scope="col">Preço Unitário</th>
 					<th scope="col">Quantidade</th>
 					<th scope="col"></th>
 				</tr>

@@ -58,7 +58,8 @@ def main_page():
 
 @route('/message_err/<msg>',method='GET')
 def message_page(msg):
-	return template('view/message',msg=msg)
+	usuario_id = get_session()
+	return template('view/message',msg=msg,usuario_id=usuario_id)
 
 @route('/static/<filename:path>')
 def static_routes(filename):
@@ -77,7 +78,7 @@ def usuario_profile_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Conta().find(usuario_id)
-	return template('view/usuario/profile',dado=dado)
+	return template('view/usuario/profile',dado=dado,usuario_id=usuario_id)
 
 @route('/usuario/register',method='POST')
 def usuario_register_post():		
@@ -111,7 +112,8 @@ def usuario_register_post():
 
 @route('/usuario/register',method='GET')
 def usuario_register_get():
-	return template('view/usuario/register')
+	usuario_id = get_session()
+	return template('view/usuario/register',usuario_id=usuario_id)
 
 @route('/usuario/edit',method='POST')
 def usuario_edit_post():
@@ -135,9 +137,9 @@ def usuario_edit_post():
 @route('/usuario/edit',method='GET')
 def usuario_edit_get():
 	has_session()
-	usuaario_id = get_session()
+	usuario_id = get_session()
 	dado = Conta().find(get_session())
-	return template('view/usuario/edit',dado=dado)
+	return template('view/usuario/edit',dado=dado,usuario_id=usuario_id)
 
 @route('/usuario/delete',method='POST')
 def usuario_delete_post():
@@ -162,7 +164,7 @@ def usuario_delete_get():
 	has_session()
 	usuario_id = get_session()
 	dados = Conta().find(usuario_id)
-	return template('view/usuario/delete', dados=dados)
+	return template('view/usuario/delete', dados=dados,usuario_id=usuario_id)
 
 @route('/login',method='POST')
 def usuario_login_post():
@@ -180,7 +182,8 @@ def usuario_login_post():
 @route('/usuario/forgot_password',method=['GET','POST'])
 def recovery_pw_get_post():
 	if request.method == 'GET':
-		return template('view/usuario/check_email.tpl')
+		usuario_id = get_session()
+		return template('view/usuario/check_email.tpl',usuario_id=usuario_id)
 	elif request.method == 'POST':	
 		email = request.POST.email
 		if Usuario().has_email(email)[0] > 0:
@@ -198,10 +201,17 @@ def recovery_pw_get_post():
 
 @route('/usuario/reset_pw/<_id>/<_hash>',method=['GET','POST'])
 def reset_pw_get(_id,_hash): 
+	usuario_id = get_session()
 	if request.method == 'GET':
+
+		if Usuario().has_usuario(_id)[0] <= 0:
+			return redirect('/login')
+
 		emailh = Usuario().find(_id)[3]
+
 		if emailh == _hash.decode('base64'):
-			return template('view/usuario/manage_password.tpl',_id=_id,_hash=_hash)
+			return template('view/usuario/manage_password.tpl',_id=_id,_hash=_hash,usuario_id=usuario_id)
+			
 		return redirect('/login')
 	elif request.method == 'POST':
 		nova_senha = request.POST.nova_senha
@@ -218,7 +228,8 @@ def reset_pw_get(_id,_hash):
 
 @route('/login',method='GET')
 def usuario_login_get():
-	return template('view/usuario/login')
+	usuario_id = get_session()
+	return template('view/usuario/login',usuario_id=usuario_id)
 
 @route('/usuario/reset',method='POST')
 def reset_password_get():
@@ -243,7 +254,8 @@ def reset_password_get():
 @route('/usuario/reset',method='GET')
 def reset_password_get():
 	has_session()
-	return template('view/usuario/reset_password')
+	usuario_id = get_session()
+	return template('view/usuario/reset_password',usuario_id=usuario_id)
 # Usuario end
 # Ingresso begin
 
@@ -253,7 +265,7 @@ def ingresso_index_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Ingresso().findAll(usuario_id,1)
-	return template('view/ingresso/index',dado=dado)
+	return template('view/ingresso/index',dado=dado,usuario_id=usuario_id)
 @route('/ingresso/insert',method='POST')
 def ingresso_insert_post():
 	has_session()
@@ -271,7 +283,7 @@ def ingresso_insert_get():
 	has_session()
 	usuario_id = get_session()
 	evento = Evento().findAll(usuario_id,1)
-	return template('view/ingresso/insert',evento=evento)
+	return template('view/ingresso/insert',evento=evento,usuario_id=usuario_id)
 
 @route('/ingresso/edit/<_id>',method='POST')
 def ingresso_edit_post(_id):
@@ -291,7 +303,7 @@ def ingresso_edit_get(_id):
 	usuario_id = get_session()
 	evento = Evento().findAll(usuario_id,1)
 	dado = Ingresso().find(usuario_id,_id)
-	return template('view/ingresso/edit',evento=evento,dado=dado)
+	return template('view/ingresso/edit',evento=evento,dado=dado,usuario_id=usuario_id)
 
 @route('/ingresso/delete/<_id>',method='GET')
 def ingresso_delete_get(_id):
@@ -324,16 +336,18 @@ def evento_upload_post(evento_id):
 def evento_upload_get(evento_id):
 	has_session()
 	usuario_id = get_session()
-	return template('view/evento/upload',evento_id=evento_id)
+	return template('view/evento/upload',evento_id=evento_id,usuario_id=usuario_id)
 
 @route('/evento/<_id>', method='GET')
 def page_evento_get(_id):
+	usuario_id = get_session()
 	dado = Evento().find_by_evento_id(_id,1)
 	ingresso = Ingresso().find_by_evento_id(_id,1)
-	return template('view/evento/show',dado=dado,ingresso=ingresso)
+	return template('view/evento/show',dado=dado,ingresso=ingresso,usuario_id=usuario_id)
 	
 @route('/list-event',method=['GET','POST'])
 def evento_list_get():
+	usuario_id = get_session()
 	cidade = IBGE().findAll() 
 	categoria = Categoria().findAll()
 	if request.method == 'GET':
@@ -342,7 +356,7 @@ def evento_list_get():
 		categoria_id = request.POST.categoria_id
 		cidade_id = request.POST.cidade_id
 		evento = Evento().searchEvento(categoria_id,cidade_id)
-	return template('view/evento/catalog',categoria=categoria,evento=evento,cidade=cidade)
+	return template('view/evento/catalog',categoria=categoria,evento=evento,cidade=cidade,usuario_id=usuario_id)
 
 @route('/evento', method='GET')
 @route('/evento/index', method='GET')
@@ -350,7 +364,7 @@ def evento_index_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Evento().findAll(usuario_id,1) # Mostrar somente eventos ativos.
-	return template('view/evento/index',dado=dado)
+	return template('view/evento/index',dado=dado,usuario_id=usuario_id)
 
 @route('/evento/insert', method='POST')
 def evento_insert_post():
@@ -371,9 +385,10 @@ def evento_insert_post():
 @route('/evento/insert', method='GET')
 def evento_insert_get():
 	has_session()
+	usuario_id = get_session()
 	cidade = IBGE().findAll() 
 	categoria = Categoria().findAll()
-	return template('view/evento/insert',categoria=categoria,cidade=cidade)
+	return template('view/evento/insert',categoria=categoria,cidade=cidade,usuario_id=usuario_id)
 @route('/evento/edit/<_id>', method='POST')
 def evento_edit_post(_id):
 	has_session()
@@ -396,7 +411,7 @@ def evento_edit_get(_id):
 	dado = Evento().find(usuario_id,_id)
 	cidade = IBGE().findAll() 
 	categoria = Categoria().findAll()
-	return template('view/evento/edit',cidade=cidade,categoria=categoria,dado=dado)
+	return template('view/evento/edit',cidade=cidade,categoria=categoria,dado=dado,usuario_id=usuario_id)
 
 @route('/evento/delete/<_id>',method='GET')
 def evento_delete_get(_id):
@@ -438,6 +453,6 @@ def carrinho_index_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Carrinho().findAll(usuario_id)
-	return template('view/carrinho/index.tpl',dado=dado)
+	return template('view/carrinho/index.tpl',dado=dado,usuario_id=usuario_id)
 #Shopping cart begin
 run(host='localhost',port='8080',debug=True,reloader=True,app=app)

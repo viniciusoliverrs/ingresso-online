@@ -28,7 +28,15 @@
 		        <div class="collapse navbar-collapse" id="navbarResponsive">
 		          <ul class="navbar-nav ml-auto">
 		          	<li class="nav-item"><a class="nav-link" href="/list-event">Eventos</a></li>
-		            <li class="nav-item"><a class="nav-link" href="#">Help me</a></li>
+		          	%if usuario_id > 0:
+					<li class="nav-item"><a class="nav-link" href="/usuario/profile">Perfil</a></li>
+					<li class="nav-item"><a class="nav-link" href="/ingresso">Meu ingresso</a></li>
+					<li class="nav-item"><a class="nav-link" href="/evento">Meu evento</a></li>
+					<li class="nav-item"><a class="nav-link" href="/carrinho">Meu carrinho</a></li>
+					<li class="nav-item"><a class="nav-link" href="/logout">Sair</a></li>
+					%else:
+					<li class="nav-item"><a class="nav-link" href="/login">Entrar</a></li>
+					%end
 		          </ul>
 		        </div>
 		      </div>

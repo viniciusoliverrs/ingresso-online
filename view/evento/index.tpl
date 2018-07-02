@@ -40,6 +40,16 @@
 								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-sm">Excluir</button>
 							</td>
 						</tr>
+						<!-- Small modal -->
+						<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+						  <div class="modal-dialog modal-sm">
+						    <div class="modal-content">
+						    	<p>
+						    		Deseja excluir esse evento?
+						    	</p>
+						      <a href="/evento/delete/{{item[0]}}" class="btn btn-danger">Sim</a>
+						   </div>
+						</div>
 						%end
 					</tbody>
 				</table>
@@ -53,15 +63,5 @@
 		</div>
 	</div>
 
-<!-- Small modal -->
 
 
-<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-    	<p>
-    		Deseja excluir esse evento?
-    	</p>
-      <a href="/evento/delete/{{item[0]}}" class="btn btn-danger">Sim</a>
-   </div>
-</div>

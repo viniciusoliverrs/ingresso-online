@@ -73,6 +73,14 @@ class Usuario():
 		except Exception:
 			self.db.close()
 
+	def has_usuario(self,Usuario_id):
+		try:
+			sql = "SELECT COUNT(Id) FROM %s WHERE Id = ?" % self.table
+			self.cursor.execute(sql,[Usuario_id])
+			return self.cursor.fetchone()
+		except Exception:
+			self.db.close()
+
 	def update_orderRecPw(self,Usuario_id,Recovery):
 		try:
 			sql = "UPDATE  %s SET Recovery = ? WHERE Id = ?" % self.table

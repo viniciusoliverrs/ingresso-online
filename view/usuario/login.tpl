@@ -33,8 +33,8 @@
             <div class="row" style="padding-top: 1rem">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <a href="/usuario/forgot_password" class="btn btn-link">Esqueceu sua senha?</a>
-                    <a href="/usuario/register" class="btn btn-link">Criar conta</a>
+                    <a href="/usuario/forgot_password" class="btn btn-link">Esqueceu a senha?</a>
+                    <a href="/usuario/register" class="btn btn-primary">Criar conta</a>
                     <button class="btn btn-success float-md-right">Entrar</button>
                 </div>
                 <div class="col-md-4"></div>
