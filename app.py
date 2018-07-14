@@ -13,6 +13,7 @@ from model.ingresso import Ingresso
 from model.categoria import Categoria
 from model.ibge import IBGE
 from model.servico import Servico
+from model.venda import Venda
 
 TEMPLATE_PATH.insert(0,"view")
 _session_opts = {'session.type':'memory','_session.cookie_expires':600,'_session.auto': True}
@@ -453,6 +454,18 @@ def carrinho_index_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Carrinho().findAll(usuario_id)
+	print dado
 	return template('view/carrinho/index.tpl',dado=dado,usuario_id=usuario_id)
 #Shopping cart begin
+#Sale begin
+@route('/carrinho/finalizar',method="GET")
+def finish():
+	has_session()
+	usuario_id = get_session()
+	dado = Carrinho().findAll(usuario_id)
+	for i in dado:
+		print Venda().add(i[1],usuario_id,i[3],i[4])
+	if Carrinho().delete_by_usuario(usuario_id):
+		return 'ok'
+#Sale end 
 run(host='localhost',port='8080',debug=True,reloader=True,app=app)

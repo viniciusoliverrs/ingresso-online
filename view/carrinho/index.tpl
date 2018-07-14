@@ -25,14 +25,14 @@
 					<tbody>
 						%for item in dado:
 						<tr>							
+							<td scope="col">{{item[0]}}</td>
+							<td scope="col">{{item[3]}}</td>
 							<td scope="col">{{item[2]}}</td>
-							<td scope="col">{{item[1]}}</td>
-							<td scope="col">{{item[4]}}</td>
-							%subtotal = int(item[1]) * float(item[5].replace(',','.'))
+							%subtotal = int(item[3]) * float(item[4].replace(',','.'))
 							%total += subtotal
 							<td scope="col">R$ {{subtotal}}</td>
 							<td>
-								<a href="/carrinho/delete/{{item[0]}}"class="btn btn-danger">Excluir</a>
+								<a href="/carrinho/delete/{{item[0]}}" class="btn btn-danger">Excluir</a>
 							</td>
 						</tr>
 						%end
@@ -42,10 +42,7 @@
 					</tbody>
 				</table>
 				<div class="input-group">
-					<form>
-						<button type="button" class="btn-primary btn-lg">Finalizar</button>
-					</form>
-	
+					<a href="/carrinho/finalizar" class="btn-primary btn-lg">Finalizar</a>
 				</div>
 			<div class="col-md-3"></div>
 			%else:
