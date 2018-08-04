@@ -20,17 +20,20 @@ class Carrinho():
 
 	def delete(self,Id,Usuario_Id):
 		try:
+			print Id
+			print Usuario_Id
 			sql = "DELETE FROM %s WHERE Id = ? AND Usuario_Id = ?" % self.table
 			self.cursor.execute(sql,[Id,Usuario_Id])
 			self.db.commit()
 			self.db.close()
 			return True
-		except Exception:
+		except Exception as e:
+			print e
 			return False
 
 	def findAll(self,Usuario_Id):
 		try:
-			sql = "SELECT evento.Titulo,ingresso.Id,ingresso.Tipo,carrinho.Quantidade,Ingresso.Preco FROM carrinho JOIN ingresso ON ingresso.Id = carrinho.Ingresso_Id JOIN evento ON evento.Id = ingresso.Evento_Id WHERE carrinho.Usuario_Id = ?".format(carrinho=self.table,ingresso=self.Itable)
+			sql = "SELECT evento.Titulo,ingresso.Id,ingresso.Tipo,carrinho.Quantidade,Ingresso.Preco,carrinho.Id FROM carrinho JOIN ingresso ON ingresso.Id = carrinho.Ingresso_Id JOIN evento ON evento.Id = ingresso.Evento_Id WHERE carrinho.Usuario_Id = ?".format(carrinho=self.table,ingresso=self.Itable)
 			self.cursor.execute(sql,[Usuario_Id])
 			return self.cursor.fetchall()
 		except Exception as e:

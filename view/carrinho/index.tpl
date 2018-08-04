@@ -32,7 +32,7 @@
 							%total += subtotal
 							<td scope="col">R$ {{subtotal}}</td>
 							<td>
-								<a href="/carrinho/delete/{{item[0]}}" class="btn btn-danger">Excluir</a>
+								<a href="/carrinho/delete/{{item[5]}}" class="btn btn-danger">Excluir</a>
 							</td>
 						</tr>
 						%end

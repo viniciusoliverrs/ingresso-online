@@ -71,7 +71,7 @@ def static_routes(filename):
 	return static_file(filename, root='Eventos')
 @error(404)
 def error404(error):
-	return template('view/404')
+	return template('view/404',usuario_id = get_session())
 
 # Usuario Begin
 @route('/usuario/profile',method='GET')
@@ -103,11 +103,8 @@ def usuario_register_post():
 		usuario_id = Usuario().find_by_email(email)[0]
 		if Conta().add(usuario_id,nome,cpf,telefone,data_criacao):
 			set_session('usuario_id',usuario_id)
-			return redirect("/")
-		else:
-			if Usuario().delete(usuario_id):
-				pass
-		return redirect("/")
+	
+	return redirect("/")
 
 
 
@@ -130,8 +127,7 @@ def usuario_edit_post():
 		if Usuario().has_email(email)[0] > 0:
 			return redirect('/message_err/Email em uso!')
 
-	if Usuario().update(email,usuario_id):
-		if Conta().update(nome,cpf,telefone,data_alteracao,usuario_id):
+	if Conta().update(nome,cpf,telefone,data_alteracao,usuario_id):
 			return redirect("/usuario/profile")
 	return redirect('/message_err/Ocorreu um erro!<br/>Não foi possivel realizar as alterações.')
 
@@ -427,10 +423,10 @@ def evento_delete_get(_id):
 @route('/carrinho/insert/<evento_id>/<ingresso_id>',method='POST')
 def add_cart_get(evento_id,ingresso_id):
 	has_session()
+	usuario_id = get_session()
 	quantidade = request.POST.quantidade
 	if int(quantidade) <= 0:
 		quantidade = 1
-	usuario_id = get_session()
 	if Carrinho().check_item_exists(usuario_id,ingresso_id)[0] != 0:
 		dado = Carrinho().find(usuario_id,ingresso_id)[3]
 		quantidade = dado + int(quantidade)
@@ -446,15 +442,14 @@ def carrinho_delete_get(_id):
 	has_session()
 	usuario_id = get_session()
 	if Carrinho().delete(_id,usuario_id):
-		return redirect('/carrinho')
-	return redirect('/')
+		print '[DELETADO ITEM]'
+	return redirect('/carrinho')
 	
 @route('/carrinho',method='GET')
 def carrinho_index_get():
 	has_session()
 	usuario_id = get_session()
 	dado = Carrinho().findAll(usuario_id)
-	print dado
 	return template('view/carrinho/index.tpl',dado=dado,usuario_id=usuario_id)
 #Shopping cart begin
 #Sale begin
@@ -466,6 +461,7 @@ def finish():
 	for i in dado:
 		print Venda().add(i[1],usuario_id,i[3],i[4])
 	if Carrinho().delete_by_usuario(usuario_id):
-		return 'ok'
+		print '[Carrinho limpo]'
+	return redirect('/carrinho')
 #Sale end 
 run(host='localhost',port='8080',debug=True,reloader=True,app=app)
