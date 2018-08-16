@@ -20,10 +20,19 @@ class Carrinho():
 
 	def delete(self,Id,Usuario_Id):
 		try:
-			print Id
-			print Usuario_Id
 			sql = "DELETE FROM %s WHERE Id = ? AND Usuario_Id = ?" % self.table
 			self.cursor.execute(sql,[Id,Usuario_Id])
+			self.db.commit()
+			self.db.close()
+			return True
+		except Exception as e:
+			print e
+			return False
+
+	def delete_by_ingresso(self,Ingresso_Id,Usuario_Id):
+		try:
+			sql = "DELETE FROM %s WHERE Ingresso_Id = ? AND Usuario_Id = ?" % self.table
+			self.cursor.execute(sql,[Ingresso_Id,Usuario_Id])
 			self.db.commit()
 			self.db.close()
 			return True

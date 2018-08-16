@@ -101,3 +101,20 @@ class Ingresso():
 				return True
 			except Exception:
 				return False
+
+	def manage_inventory(self,Ingresso_Id,Quantidade):
+		try:
+			sql = "SELECT Quantidade FROM %s WHERE Id = ?" % self.table
+			self.cursor.execute(sql,[Ingresso_Id])
+			dado = self.cursor.fetchone()[0]
+			if Quantidade <= dado:
+				Quantidade = dado - Quantidade
+				sql2 = "UPDATE %s SET Quantidade = ? WHERE Id = ?" % self.table
+				self.cursor.execute(sql2,[Quantidade,Ingresso_Id])
+				self.db.commit()
+				self.db.close()
+				print '[Quantidade atualizada]'
+				return True
+			return False
+		except Exception as e:
+			print e

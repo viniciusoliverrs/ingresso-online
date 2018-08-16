@@ -459,9 +459,9 @@ def finish():
 	usuario_id = get_session()
 	dado = Carrinho().findAll(usuario_id)
 	for i in dado:
-		print Venda().add(i[1],usuario_id,i[3],i[4])
-	if Carrinho().delete_by_usuario(usuario_id):
-		print '[Carrinho limpo]'
+		if Ingresso().manage_inventory(i[1],i[3]):
+			print Venda().add(i[1],usuario_id,i[3],i[4],str(datetime.now())[0:19])
+		print Carrinho().delete_by_ingresso(i[1],usuario_id)
 	return redirect('/carrinho')
 #Sale end 
 run(host='localhost',port='8080',debug=True,reloader=True,app=app)
