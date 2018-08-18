@@ -13,7 +13,6 @@
     <link href="/static/css/shop-homepage.css" rel="stylesheet">
     <!-- Bootstrap core JavaScript -->
     <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/validate.js"></script>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 	</head>
 	<body>

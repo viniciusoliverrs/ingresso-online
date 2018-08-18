@@ -10,6 +10,8 @@
 		<div class="col-md-3"></div>
 			<div class="col-md-6">
 				<a href="/ingresso/insert" class="btn btn-success">Adicionar</a>
+				<a href="/ingresso/mysales" title="Relatório" class="btn btn-primary">Minhas vendas</a>
+				<hr/>
 		    </div>
 	    <div class="col-md-3"></div>
 	</div>

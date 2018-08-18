@@ -11,6 +11,9 @@
 	<div class="row" style="margin-top:10px;">
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
+			<a href="/carrinho/myshopping"  class="btn btn-success">Minhas compras</a>
+			<a href="/carrinho/pickupticket" class="btn btn-primary">Retirar ingresso</a>
+			<hr/>
 			%if len(dado) != 0:
 				<table class="table">
 					<thead class="thead-dark">

@@ -23,6 +23,13 @@ class Ingresso():
 		except Exception:
 			self.db.close()
 
+	def find_by_usuario(self,Ingresso_Id):
+		try:
+			sql = "SELECT Usuario_Id FROM %s WHERE Id = ?" % self.table
+			self.cursor.execute(sql,[Ingresso_Id])
+			return self.cursor.fetchone()[0]
+		except Exception:
+			self.db.close()
 	def update(self,Tipo,Quantidade,Preco,Evento_Id,Usuario_Id,Ingresso_Id):
 		try:
 			sql = "UPDATE %s SET Tipo = ? , Quantidade = ?, Preco = ?, Evento_Id = ? WHERE Usuario_Id = ? AND Id = ?" % self.table

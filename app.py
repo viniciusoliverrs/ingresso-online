@@ -19,7 +19,6 @@ TEMPLATE_PATH.insert(0,"view")
 _session_opts = {'session.type':'memory','_session.cookie_expires':600,'_session.auto': True}
 
 app = SessionMiddleware(app(), _session_opts)
-
 def has_session():
 	_session = request.environ.get('beaker.session')
 	if not _session or 'usuario_id' not in _session:
@@ -309,6 +308,12 @@ def ingresso_delete_get(_id):
 	if Ingresso().update_status(0,usuario_id,_id):
 		return redirect('/ingresso')
 	return redirect('/message_err/Ocorreu um erro!<br/>Não foi possivel deletar o ingresso.')
+@route('/ingresso/mysales',method='GET')
+def ingresso_mysales_get():
+	has_session()
+	usuario_id = get_session()
+	dado = Venda().mysales(usuario_id)
+	return template('view/ingresso/mysales',dado=dado)
 #Ingresso end
 #Evento begin
 @route('/evento/upload/<evento_id>', method='POST')
@@ -451,8 +456,20 @@ def carrinho_index_get():
 	usuario_id = get_session()
 	dado = Carrinho().findAll(usuario_id)
 	return template('view/carrinho/index.tpl',dado=dado,usuario_id=usuario_id)
-#Shopping cart begin
-#Sale begin
+@route('/carrinho/myshopping',method="GET")
+def myshopping_get():
+	has_session()
+	usuario_id = get_session()
+	dado = Venda().myshopping(usuario_id)
+	return template("view/carrinho/myshopping.tpl",dado=dado)
+
+@route('/carrinho/pickupticket',method="GET")
+def pickupticket_get():
+	has_session()
+	usuario_id = get_session()
+	dado = Venda().pickupticket(usuario_id)
+	return template("view/carrinho/pickupticket.tpl",dado=dado)
+
 @route('/carrinho/finalizar',method="GET")
 def finish():
 	has_session()
@@ -460,8 +477,9 @@ def finish():
 	dado = Carrinho().findAll(usuario_id)
 	for i in dado:
 		if Ingresso().manage_inventory(i[1],i[3]):
-			print Venda().add(i[1],usuario_id,i[3],i[4],str(datetime.now())[0:19])
+			vendedor_id = Ingresso().find_by_usuario(i[1])
+			print Venda().add(i[1],usuario_id,i[3],i[4],str(datetime.now())[0:19],vendedor_id)
 		print Carrinho().delete_by_ingresso(i[1],usuario_id)
 	return redirect('/carrinho')
-#Sale end 
+#Shopping cart end
 run(host='localhost',port='8080',debug=True,reloader=True,app=app)
