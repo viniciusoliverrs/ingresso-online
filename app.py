@@ -478,7 +478,9 @@ def finish():
 	for i in dado:
 		if Ingresso().manage_inventory(i[1],i[3]):
 			vendedor_id = Ingresso().find_by_usuario(i[1])
-			print Venda().add(i[1],usuario_id,i[3],i[4],str(datetime.now())[0:19],vendedor_id)
+			_hash = Conta().find(vendedor_id)[0]
+			_hash = set_passwh(_hash)
+			print Venda().add(i[1],usuario_id,i[3],i[4],str(datetime.now())[0:19],vendedor_id,_hash)
 		print Carrinho().delete_by_ingresso(i[1],usuario_id)
 	return redirect('/carrinho')
 #Shopping cart end

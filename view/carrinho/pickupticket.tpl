@@ -8,22 +8,26 @@
 			* {
 				margin: 0px;
 			}
-			table {
-				width: 50%;
-				margin: 0 auto;
-			    border: none;
+			div#content {
+				width: auto;
+				margin-left: 35%;
+			    border-collapse: collapse;
 			}
 			table caption {
 				font-size: 14px;
 			}
+			table {
+				border-collapse: collapse
+			}
 			table, caption, td, th {
+
 			    border: 1px solid black;
-			    font-size: 10px;
-			   	text-align: center;
+			    font-size: 8px;
+			   	text-align: left;
+			   	font-weight: bold;
 			}
 			table td {
 				width: auto;
-			
 				vertical-align: bottom;
 			}
 	</style>
@@ -75,26 +79,44 @@
 <div>
 		<a href="javascript:demoFromHTML()" class="button">Emitir</a>
 		<div id="content">
-				%for item in dado:
-					%for quant in range(0,item[2]):
-						<table>
-							<thead>
-								<tr>						
-									<th>Titulo</th>
-									<th>Tipo</th>
-									<th>Data da compra</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>					
-									<td>{{ item[0] }}</td>
-									<td>{{ item[1] }}</td>
-									<td>{{ item[4] }}</td>
-								</tr>
-							</tbody>
-						</table>
-					%end
+			%for item in dado:
+				%for quant in range(0,item[0]):
+					<table>
+						<thead>
+							<tr>						
+								<td>Titulo</td>
+								<td>Tipo</td>
+								<td>Telefone</td>
+							</tr>
+							<tr>
+								<td>{{item[1]}}</td>
+								<td>{{item[9]}}</td>
+								<td>{{item[5]}}</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Estado \ Cidade</td>
+								<td>Local</td>
+								<td>Bairro</td>
+							</tr>
+							<tr>					
+								<td>{{item[7]}} - {{item[6]}}</td>
+								<td>Rua: {{item[2]}} Nº: {{item[4]}}</td>
+								<td>{{item[3]}}</td>
+							</tr>
+							<tr>
+								<td>|||||||||||||||||||||</td>
+								<td>Chave Única</td>
+								<td>{{item[12]}}</td>
+							</tr>
+						</tbody>
+					</table>
+					<div>
+						----------------------------------------------------------------------------
+					</div>
 				%end
+			%end
 		</div>
 </body>
 </html>

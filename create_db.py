@@ -64,7 +64,8 @@ CREATE TABLE Venda (
 	Quantidade INTEGER,
 	Preco TEXT,
 	DataEmitida TEXT,
-	Vendedor_Id INTEGER);
+	Vendedor_Id INTEGER,
+	Key TEXT);
 
 CREATE TABLE Cidade (
 	Id INTEGER PRIMARY KEY, 
