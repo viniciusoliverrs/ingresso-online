@@ -1,5 +1,5 @@
 alabaster==0.7.10
-Babel==2.5.3
+Babel==2.9.1
 bcrypt==3.1.4
 Beaker==1.9.0
 bottle==0.12.13
